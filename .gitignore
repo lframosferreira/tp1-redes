@@ -1,1 +1,4 @@
-*.o
+# binaries
+
+server
+client
