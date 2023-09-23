@@ -1,5 +1,4 @@
-#ifndef COMMON_H
-#define COMMON_H
+#include "common.h"
 
 int main(int argc, char **argv){
 
@@ -10,4 +9,3 @@ int main(int argc, char **argv){
     return 0;
 }
 
-#endif

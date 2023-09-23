@@ -1,3 +1,6 @@
+#ifndef COMMON_H
+#define COMMON_H
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -23,7 +26,9 @@
 struct action {
     int type;
     int coordinates[2];
-    int board[BOARD_SIZE][BOARD_SIZE]
-}
+    int board[BOARD_SIZE][BOARD_SIZE];
+};
 
-void print_board(const struct *action);
+void print_board(const struct action *current_action);
+
+#endif

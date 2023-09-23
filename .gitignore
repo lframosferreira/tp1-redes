@@ -1,4 +1,2 @@
-# binaries
-
-server
-client
+bin/
+obj/
