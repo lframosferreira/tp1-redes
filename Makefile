@@ -9,22 +9,26 @@
 
 CC = gcc
 LIBS = -lm
-SRC = src
-INC = include
 BIN = bin
-HDRS = $(INC)/common.h
-CFLAGS = -Wall -I$(INC)
+OBJ = obj
+HDRS = common.h
+CFLAGS = -Wall
 
+COMMON = $(OBJ)/common.o
 SERVER = $(BIN)/server
 CLIENT = $(BIN)/client
 
-all: $(SERVER) $(CLIENT)
+all: $(COMMON) $(SERVER) $(CLIENT) 
 
-$(BIN)/server: $(SRC)/server.c $(HDRS)
-	$(CC) $(CFLAGS) $(SRC)/server.c -o $(BIN)/server $(LIBS)
+$(COMMON): common.c $(HDRS)
+	$(CC) $(CFLAGS) -c -o $(OBJ)/common.o common.c
 
-$(BIN)/client: $(SRC)/client.c $(HDRS)
-	$(CC) $(CFLAGS) $(SRC)/client.c -o $(BIN)/client $(LIBS)
+$(SERVER): server.c $(HDRS)
+	$(CC) $(CFLAGS) server.c -o $(BIN)/server $(OBJ)/common.o $(LIBS)
+
+$(CLIENT): client.c $(HDRS)
+	$(CC) $(CFLAGS) client.c -o $(BIN)/client $(OBJ)/common.o $(LIBS)
 
 clean:
 	rm $(SERVER) $(CLIENT)
+	rm $(OBJ)/*

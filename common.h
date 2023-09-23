@@ -9,6 +9,8 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <errno.h>
+#include <string.h>
+#include <stdlib.h>
 
 // Action types
 #define START 0
@@ -30,5 +32,9 @@ struct action {
 };
 
 void print_board(const struct action *current_action);
+
+void parse_input(const char *filepath);
+
+void say_hi();
 
 #endif
