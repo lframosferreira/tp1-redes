@@ -1,0 +1,10 @@
+Livros:
+    tanembaum
+    sockets
+
+Web:
+    https://www.tutorialkart.com/c-programming/c-read-text-file/#gsc.tab=0
+    https://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html
+
+Youtube:
+    jacob sorber

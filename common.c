@@ -29,11 +29,23 @@ void print_board(const struct action *current_action){
 }
 
 void parse_input(const char *filepath){
-    FILE *file = fopen(filepath, "r");
-    if (file == NULL){
-        fprintf(stderr, "Erro ao abrir arquivo de tabuleiro inicial\n");
+    FILE *fp = fopen(filepath, "r");
+    if (fp == NULL){
+        perror("Erro ao abrir arquivo de tabuleiro inicial\n");
         exit(EXIT_FAILURE);
     }
-
     int board[BOARD_SIZE][BOARD_SIZE];
+    fseek(fp, 0, SEEK_END);
+    long filesize = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    char *content = (char *)malloc(filesize + 1);
+    if (content == NULL){
+        fclose(fp);
+        perror("Erro ao alocar memória para consumir conte[udo do arquivo\n");
+        exit(EXIT_FAILURE);
+    }
+    // checar possivel erro: nro de bytes lidos esta correto? (retorno de fread)
+    fread(content, sizeof(char), filesize, fp);
+    printf("%s\n", content);
+    fclose(fp);
 }

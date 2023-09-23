@@ -35,6 +35,4 @@ void print_board(const struct action *current_action);
 
 void parse_input(const char *filepath);
 
-void say_hi();
-
 #endif
