@@ -1,4 +1,10 @@
 bin/
 obj/
 
+# vscode garbage
 .vscode/
+
+# report garbage
+report/*.out
+report/*.log
+report/*.aux

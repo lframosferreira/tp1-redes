@@ -20,7 +20,9 @@ int main(int argc, char **argv) {
     }
   }
 
+  // fazer strcmp e gerar inteiro correto AF_INET ou AF_INET6
   char *ip_protocol = argv[1];
+
   int port = atoi(argv[2]);
 
   // por agora, nao vamos nos preocupar com o aprse do arquivo de entrada. Hard
