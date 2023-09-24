@@ -27,8 +27,8 @@ void print_board(const struct action *current_action) {
   }
 }
 
-void parse_input(const char *filepath) {
-  FILE *fp = fopen(filepath, "r");
+void parse_input(const char *file_path) {
+  FILE *fp = fopen(file_path, "r");
   if (fp == NULL) {
     perror("Erro ao abrir arquivo de tabuleiro inicial\n");
     exit(EXIT_FAILURE);
