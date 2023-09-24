@@ -5,6 +5,7 @@ Livros:
 Web:
     https://www.tutorialkart.com/c-programming/c-read-text-file/#gsc.tab=0
     https://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html
+    https://riptutorial.com/c/example/30858/using-gnu-getopt-tools
 
 Youtube:
     jacob sorber

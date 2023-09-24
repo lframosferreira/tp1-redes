@@ -1,16 +1,16 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
-#include <netdb.h>
-#include <unistd.h>
 #include <errno.h>
-#include <string.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 // Action types
 #define START 0
@@ -26,13 +26,18 @@
 #define BOARD_SIZE 4
 
 struct action {
-    int type;
-    int coordinates[2];
-    int board[BOARD_SIZE][BOARD_SIZE];
+  int type;
+  int coordinates[2];
+  int board[BOARD_SIZE][BOARD_SIZE];
 };
 
-void print_board(const struct action *current_action);
+// game related stuff
 
+void print_board(const struct action *current_action);
 void parse_input(const char *filepath);
+
+// general
+
+void usage(FILE *fp, const char *path);
 
 #endif
