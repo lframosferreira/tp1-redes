@@ -32,6 +32,12 @@ int main(int argc, char **argv) {
 
 
 
+  int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if (sockfd == -1){
+    perror("Error while opening server socket.\n");
+    exit(EXIT_FAILURE);
+  }
+
   
 
 
