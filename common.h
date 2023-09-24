@@ -40,6 +40,8 @@ void parse_input(const char *filepath);
 
 // general
 
-void usage(FILE *fp, const char *path);
+void server_usage(FILE *fp, const char *path);
+void client_usage(FILE *fp, const char *path);
+void parse_addr(const char *addr);
 
 #endif

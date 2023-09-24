@@ -1,5 +1,7 @@
 #include "common.h"
 
+// game related stuff
+
 void print_board(const int board[BOARD_SIZE][BOARD_SIZE]) {
   char repr;
   for (int i = 0; i < BOARD_SIZE; i++) {
@@ -52,10 +54,20 @@ void parse_input(const char *file_path) {
   fclose(fp);
 }
 
-void usage(FILE *fp, const char *path) {
+// general
+
+void server_usage(FILE *fp, const char *path) {
   const char *basename = strrchr(path, '/');
   basename = basename ? basename + 1 : path;
   fprintf(fp, "usage: %s [IP_PROTOCOL] [PORT] [OPTION]\n", basename);
   fprintf(fp, "  -i\t\t"
               "Path to input file.\n");
 }
+
+void client_usage(FILE *fp, const char *path) {
+  const char *basename = strrchr(path, '/');
+  basename = basename ? basename + 1 : path;
+  fprintf(fp, "usage: %s [SERVER_ADDR] [PORT]\n", basename);
+}
+
+void parse_addr(const char *addr) { return; }

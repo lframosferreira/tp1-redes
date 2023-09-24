@@ -3,7 +3,7 @@
 int main(int argc, char **argv) {
 
   if (argc != 5) {
-    usage(stderr, argv[0]);
+    server_usage(stderr, argv[0]);
     exit(EXIT_FAILURE);
   }
 
@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
       input_file_path = optarg;
       break;
     case '?':
-      usage(stderr, argv[0]);
+      server_usage(stderr, argv[0]);
       exit(EXIT_FAILURE);
     }
   }
