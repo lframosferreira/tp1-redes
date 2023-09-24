@@ -1,10 +1,10 @@
 #include "common.h"
 
-void print_board(const struct action *current_action) {
+void print_board(const int board[BOARD_SIZE][BOARD_SIZE]) {
   char repr;
   for (int i = 0; i < BOARD_SIZE; i++) {
     for (int j = 0; j < BOARD_SIZE; j++) {
-      switch (current_action->board[i][j]) {
+      switch (board[i][j]) {
       case -1:
         repr = '*';
         break;
@@ -18,10 +18,10 @@ void print_board(const struct action *current_action) {
         repr = '>';
         break;
       default:
-        repr = current_action->board[i][j];
+        repr = board[i][j] + '0';
         break;
       }
-      fprintf(stdout, "%c ", repr);
+      fprintf(stdout, "%c\t\t", repr);
     }
     fprintf(stdout, "\n");
   }
@@ -30,7 +30,7 @@ void print_board(const struct action *current_action) {
 void parse_input(const char *file_path) {
   FILE *fp = fopen(file_path, "r");
   if (fp == NULL) {
-    perror("Erro ao abrir arquivo de tabuleiro inicial\n");
+    perror("Error while opening the input file\n");
     exit(EXIT_FAILURE);
   }
   int board[BOARD_SIZE][BOARD_SIZE];
@@ -40,11 +40,14 @@ void parse_input(const char *file_path) {
   char *content = (char *)malloc(filesize + 1);
   if (content == NULL) {
     fclose(fp);
-    perror("Erro ao alocar memória para consumir conte[udo do arquivo\n");
+    perror("Error while allocating memory for the file content buffer\n");
     exit(EXIT_FAILURE);
   }
   // checar possivel erro: nro de bytes lidos esta correto? (retorno de fread)
-  fread(content, sizeof(char), filesize, fp);
+  if (fread(content, sizeof(char), filesize, fp) != filesize) {
+    perror("Error while reading from input file\n");
+    exit(EXIT_FAILURE);
+  }
   printf("%s\n", content);
   fclose(fp);
 }

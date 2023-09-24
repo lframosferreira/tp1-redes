@@ -23,6 +23,15 @@ int main(int argc, char **argv) {
   char *ip_protocol = argv[1];
   int port = atoi(argv[2]);
 
+  // por agora, nao vamos nos preocupar com o aprse do arquivo de entrada. Hard
+  // codar um board aqui
+  int board[BOARD_SIZE][BOARD_SIZE] = {
+      {1, 2, -1, 1}, {1, -1, 2, 1}, {1, 2, 1, 1}, {0, 1, -1, 1}};
+
+
+
   
+
+
   return 0;
 }

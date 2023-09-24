@@ -32,3 +32,7 @@ $(CLIENT): client.c $(HDRS)
 clean:
 	rm $(SERVER) $(CLIENT)
 	rm $(OBJ)/*
+
+
+teste:
+	./bin/server v6 51511 -i input/jogo1.txt
