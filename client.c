@@ -24,14 +24,22 @@ int main(int argc, char **argv) {
     err_n_die("Error on using inet_pton.\n");
   }
 
-  if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) == -1) {
+  if (connect(sockfd, (struct sockaddr *)(&servaddr), sizeof(servaddr)) == -1) {
     err_n_die("Error on connecting to server.\n");
   }
 
-  char vasco[] = "vasco";
-  if (sendto(sockfd, vasco, sizeof(vasco), 0, (struct sockaddr *)&servaddr,
-             sizeof(servaddr)) == -1) {
-    err_n_die("Error on sending message to server.\n");
+  char buffer[BUFFER_SIZE];
+  for (;;) {
+
+    bzero(buffer, sizeof(buffer));
+    if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+      err_n_die("fgets.\n");
+    }
+
+    if (sendto(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr *)(&servaddr),
+               sizeof(servaddr)) == -1) {
+      err_n_die("Error on sending message to server.\n");
+    }
   }
 
   close(sockfd);

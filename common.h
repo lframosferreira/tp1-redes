@@ -27,6 +27,8 @@
 
 #define BOARD_SIZE 4
 
+#define BUFFER_SIZE 30
+
 struct action {
   int type;
   int coordinates[2];

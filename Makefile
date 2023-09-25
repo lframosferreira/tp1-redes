@@ -33,7 +33,6 @@ clean:
 	rm $(SERVER) $(CLIENT)
 	rm $(OBJ)/*
 
-
 testeserver:
 	./bin/server v4 51511 input/jogo1.txt
 

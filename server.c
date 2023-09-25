@@ -63,16 +63,19 @@ int main(int argc, char **argv) {
   char msg[10];
   for (;;) {
     struct sockaddr_in client_addr;
+    socklen_t client_addr_len = sizeof(client_addr);
 
     csockfd =
-        accept(sockfd, (struct sockaddr *)(&client_addr), sizeof(client_addr));
+        accept(sockfd, (struct sockaddr *)(&client_addr), &client_addr_len);
 
     if (csockfd == -1) {
       err_n_die("Não sei se deveria estar aqui, mas erro ao fzr accept\n.");
     }
+
+    bzero(msg, sizeof(msg));
     if (recvfrom(csockfd, msg, sizeof(msg), 0,
                  (struct sockaddr *)(&client_addr),
-                 sizeof(client_addr)) == -1) {
+                 &client_addr_len) == -1) {
       err_n_die("n sei se devia ser aq tb, mas recvfrom\n");
     };
     printf("o gigantesco %s\n", msg);
