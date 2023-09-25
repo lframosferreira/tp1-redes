@@ -21,6 +21,8 @@ CLIENT = $(BIN)/client
 all: $(COMMON) $(SERVER) $(CLIENT) 
 
 $(COMMON): common.c $(HDRS)
+	test -d $(OBJ) || mkdir $(OBJ)
+	test -d $(BIN) || mkdir $(BIN)
 	$(CC) $(CFLAGS) -c -o $(OBJ)/common.o common.c
 
 $(SERVER): server.c $(HDRS)

@@ -59,30 +59,30 @@ int main(int argc, char **argv) {
     err_n_die("Error on listen.\n");
   }
 
-  int csockfd;
-  char msg[10];
-  for (;;) {
-    struct sockaddr_in client_addr;
-    socklen_t client_addr_len = sizeof(client_addr);
-
-    csockfd =
-        accept(sockfd, (struct sockaddr *)(&client_addr), &client_addr_len);
-
-    if (csockfd == -1) {
+  struct sockaddr_in client_addr;
+  socklen_t client_addr_len = sizeof(client_addr);
+  int csockfd = accept(sockfd, (struct sockaddr *)(&client_addr), &client_addr_len);
+  if (csockfd == -1) {
       err_n_die("Não sei se deveria estar aqui, mas erro ao fzr accept\n.");
     }
 
-    bzero(msg, sizeof(msg));
-    if (recvfrom(csockfd, msg, sizeof(msg), 0,
-                 (struct sockaddr *)(&client_addr),
-                 &client_addr_len) == -1) {
-      err_n_die("n sei se devia ser aq tb, mas recvfrom\n");
-    };
-    printf("o gigantesco %s\n", msg);
+  char msg[10];
+  int i = 0;
+      bzero(msg, sizeof(msg));
 
-    close(csockfd);
+  for (;;) {
+    ssize_t bytes_received = recv(csockfd, msg, sizeof(msg), 0);
+    if ( bytes_received == -1) {
+      err_n_die("n sei se devia ser aq tb, mas recvfrom\n");
+    } else if (bytes_received == 0){
+      break;
+    }
+
+    printf("o gigantesco %d %s", i, msg);
+    i++;
   }
 
+  close(csockfd);
   close(sockfd);
 
   return 0;
