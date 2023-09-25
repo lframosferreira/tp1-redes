@@ -43,5 +43,6 @@ void parse_input(const char *filepath);
 void server_usage(FILE *fp, const char *path);
 void client_usage(FILE *fp, const char *path);
 void parse_addr(const char *addr);
+void err_n_die(const char *msg);
 
 #endif

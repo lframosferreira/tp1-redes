@@ -71,3 +71,8 @@ void client_usage(FILE *fp, const char *path) {
 }
 
 void parse_addr(const char *addr) { return; }
+
+void err_n_die(const char *msg){
+  perror(msg);
+  exit(EXIT_FAILURE);
+}
