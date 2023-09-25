@@ -49,27 +49,38 @@ int main(int argc, char **argv) {
   bzero(&servaddr, sizeof(servaddr));
   servaddr.sin_family = AF_INET;
   servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-  servaddr.sin_port = server_port;
+  servaddr.sin_port = htons(server_port);
 
-  if (bind(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) == -1){
+  if (bind(sockfd, (struct sockaddr *)(&servaddr), sizeof(servaddr)) == -1) {
     err_n_die("Error in bind.\n");
   }
 
-  if (listen(sockfd, 10) == -1){
+  if (listen(sockfd, 10) == -1) {
     err_n_die("Error on listen.\n");
   }
 
-  int clientfd;
-  for(;;){
-    struct sockaddr_in addr;
+  int csockfd;
+  char msg[10];
+  for (;;) {
+    struct sockaddr_in client_addr;
 
-    clientfd = accept(sockfd, (struct sockaddr *) &addr, sizeof(addr));
+    csockfd =
+        accept(sockfd, (struct sockaddr *)(&client_addr), sizeof(client_addr));
 
+    if (csockfd == -1) {
+      err_n_die("Não sei se deveria estar aqui, mas erro ao fzr accept\n.");
+    }
+    if (recvfrom(csockfd, msg, sizeof(msg), 0,
+                 (struct sockaddr *)(&client_addr),
+                 sizeof(client_addr)) == -1) {
+      err_n_die("n sei se devia ser aq tb, mas recvfrom\n");
+    };
+    printf("o gigantesco %s\n", msg);
 
-    close(clientfd);
-
+    close(csockfd);
   }
 
+  close(sockfd);
 
   return 0;
 }

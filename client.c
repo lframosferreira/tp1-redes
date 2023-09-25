@@ -18,19 +18,23 @@ int main(int argc, char **argv) {
   struct sockaddr_in servaddr;
   bzero(&servaddr, sizeof(servaddr));
   servaddr.sin_family = AF_INET;
-  servaddr.sin_port = htons(server_port);
+  servaddr.sin_port = ntohs(server_port);
 
   if (inet_pton(AF_INET, argv[1], &servaddr.sin_addr) <= 0) {
     err_n_die("Error on using inet_pton.\n");
   }
 
-  if (connect(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) == -1) {
+  if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) == -1) {
     err_n_die("Error on connecting to server.\n");
   }
 
-  char *vasco = "vasco";
-  sendto(sockfd, vasco, sizeof(vasco), 0, (struct sockaddr *)&servaddr,
-         sizeof(servaddr));
+  char vasco[] = "vasco";
+  if (sendto(sockfd, vasco, sizeof(vasco), 0, (struct sockaddr *)&servaddr,
+             sizeof(servaddr)) == -1) {
+    err_n_die("Error on sending message to server.\n");
+  }
+
+  close(sockfd);
 
   return 0;
 }
