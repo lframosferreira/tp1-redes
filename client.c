@@ -28,15 +28,20 @@ int main(int argc, char **argv) {
     err_n_die("Error on connecting to server.\n");
   }
 
-  char buffer[BUFFER_SIZE];
+  char command_buffer[MAX_BUFFER_SIZE];
   for (;;) {
 
-    memset(buffer, 0, sizeof(buffer));
-    if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+    memset(command_buffer, 0, sizeof(command_buffer));
+    if (fgets(command_buffer, sizeof(command_buffer), stdin) == NULL) {
       err_n_die("fgets.\n");
     }
+    size_t new_line_pos = strlen(command_buffer) - 1;
+    command_buffer[new_line_pos] = '\0';
 
-    if (send(sockfd, buffer, sizeof(buffer), 0) == -1) {
+    if (strcmp(command_buffer, "start"))
+
+
+    if (send(sockfd, command_buffer, sizeof(command_buffer), 0) == -1) {
       err_n_die("Error on sending message to server.\n");
     }
   }

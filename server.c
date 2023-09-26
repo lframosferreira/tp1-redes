@@ -61,20 +61,21 @@ int main(int argc, char **argv) {
 
   struct sockaddr_in client_addr;
   socklen_t client_addr_len = sizeof(client_addr);
-  int csockfd = accept(sockfd, (struct sockaddr *)(&client_addr), &client_addr_len);
+  int csockfd =
+      accept(sockfd, (struct sockaddr *)(&client_addr), &client_addr_len);
   if (csockfd == -1) {
-      err_n_die("Não sei se deveria estar aqui, mas erro ao fzr accept\n.");
-    }
+    err_n_die("Error on using accept().\n");
+  }
 
-  char msg[BUFFER_SIZE];
+  char msg[MAX_BUFFER_SIZE];
 
   for (;;) {
-      memset(msg, 0, sizeof(msg));
+    memset(msg, 0, sizeof(msg));
 
     ssize_t bytes_received = recv(csockfd, msg, sizeof(msg), 0);
-    if ( bytes_received == -1) {
+    if (bytes_received == -1) {
       err_n_die("Error when using recv().\n");
-    } else if (bytes_received == 0){
+    } else if (bytes_received == 0) {
       break;
     }
 

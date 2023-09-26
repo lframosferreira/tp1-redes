@@ -2,6 +2,20 @@
 
 // game related stuff
 
+void print_starting_board() {
+  char hidden_cell_repr = '-';
+  for (int i = 0; i < BOARD_SIZE; i++) {
+    for (int j = 0; j < BOARD_SIZE; j++) {
+      if (j == BOARD_SIZE - 1) {
+        fprintf(stdout, "%c", hidden_cell_repr);
+      } else {
+        fprintf(stdout, "%c\t\t", hidden_cell_repr);
+      }
+    }
+    fprintf(stdout, "\n");
+  }
+}
+
 void print_board(const int board[BOARD_SIZE][BOARD_SIZE]) {
   char repr;
   for (int i = 0; i < BOARD_SIZE; i++) {
@@ -23,7 +37,11 @@ void print_board(const int board[BOARD_SIZE][BOARD_SIZE]) {
         repr = board[i][j] + '0';
         break;
       }
-      fprintf(stdout, "%c\t\t", repr);
+      if (j == BOARD_SIZE - 1) {
+        fprintf(stdout, "%c", repr);
+      } else {
+        fprintf(stdout, "%c\t\t", repr);
+      }
     }
     fprintf(stdout, "\n");
   }
@@ -72,7 +90,7 @@ void client_usage(FILE *fp, const char *path) {
 
 void parse_addr(const char *addr) { return; }
 
-void err_n_die(const char *msg){
+void err_n_die(const char *msg) {
   perror(msg);
   exit(EXIT_FAILURE);
 }

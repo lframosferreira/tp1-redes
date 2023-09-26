@@ -27,7 +27,7 @@
 
 #define BOARD_SIZE 4
 
-#define BUFFER_SIZE 1024
+#define MAX_BUFFER_SIZE 1024
 
 struct action {
   int type;
@@ -37,6 +37,7 @@ struct action {
 
 // game related stuff
 
+void print_starting_board();
 void print_board(const int board[BOARD_SIZE][BOARD_SIZE]);
 void parse_input(const char *filepath);
 
