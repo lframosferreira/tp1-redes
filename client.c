@@ -31,13 +31,12 @@ int main(int argc, char **argv) {
   char buffer[BUFFER_SIZE];
   for (;;) {
 
-    bzero(buffer, sizeof(buffer));
+    memset(buffer, 0, sizeof(buffer));
     if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
       err_n_die("fgets.\n");
     }
 
-    if (sendto(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr *)(&servaddr),
-               sizeof(servaddr)) == -1) {
+    if (send(sockfd, buffer, sizeof(buffer), 0) == -1) {
       err_n_die("Error on sending message to server.\n");
     }
   }

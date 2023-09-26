@@ -27,7 +27,7 @@
 
 #define BOARD_SIZE 4
 
-#define BUFFER_SIZE 30
+#define BUFFER_SIZE 1024
 
 struct action {
   int type;

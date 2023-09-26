@@ -66,20 +66,19 @@ int main(int argc, char **argv) {
       err_n_die("Não sei se deveria estar aqui, mas erro ao fzr accept\n.");
     }
 
-  char msg[10];
-  int i = 0;
-      bzero(msg, sizeof(msg));
+  char msg[BUFFER_SIZE];
 
   for (;;) {
+      memset(msg, 0, sizeof(msg));
+
     ssize_t bytes_received = recv(csockfd, msg, sizeof(msg), 0);
     if ( bytes_received == -1) {
-      err_n_die("n sei se devia ser aq tb, mas recvfrom\n");
+      err_n_die("Error when using recv().\n");
     } else if (bytes_received == 0){
       break;
     }
 
-    printf("o gigantesco %d %s", i, msg);
-    i++;
+    printf("o gigantesco %s", msg);
   }
 
   close(csockfd);
