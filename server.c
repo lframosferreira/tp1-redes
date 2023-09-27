@@ -82,11 +82,17 @@ int main(int argc, char **argv) {
     }
 
     // do game stuff
+
+
+    int c0 = curr_action.coordinates[0];
+    int c1 = curr_action.coordinates[1];
+  
     switch (curr_action.type){
       case START:
         reset_board_state(curr_action.board);
       break;
       case REVEAL:
+        curr_action.board[c0][c1] = 'y';
         break;
 
         default:

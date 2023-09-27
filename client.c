@@ -32,13 +32,15 @@ int main(int argc, char **argv) {
   char *command;
   char *coordinates;
   ssize_t bytes_received;
+
+  
   struct action curr_action;
+  memset(&curr_action, 0, sizeof(curr_action));
 
   
 
   for (;;) {
 
-    memset(&curr_action, 0, sizeof(curr_action));
 
     memset(input_buffer, 0, sizeof(input_buffer));
     if (fgets(input_buffer, sizeof(input_buffer), stdin) == NULL) {
@@ -70,17 +72,18 @@ int main(int argc, char **argv) {
           fprintf(stdout, "error: invalid cell\n");
           continue;
         }
-        if (curr_action.board[coordinates[0]][coordinates[1]] != HIDDEN){
+        if (curr_action.board[curr_action.coordinates[0]][curr_action.coordinates[1]] != HIDDEN){
+          printf("olha eu: %d\n",curr_action.board[curr_action.coordinates[0]][curr_action.coordinates[1]]);
           fprintf(stdout, "error: cell already revealed\n");
           continue;
         }
       } else if (strcmp(command, "flag") == 0) {
         curr_action.type = FLAG;
-        if (curr_action.board[coordinates[0]][coordinates[1]] != HIDDEN){
+        if (curr_action.board[curr_action.coordinates[0]][curr_action.coordinates[1]] != HIDDEN){
           fprintf(stdout, "error: cannot insert flag in revealed cell\n");
           continue;
         }
-        if (curr_action.board[coordinates[0]][coordinates[1]] == FLAGGED){
+        if (curr_action.board[curr_action.coordinates[0]][curr_action.coordinates[1]] == FLAGGED){
           fprintf(stdout, "error: cell already has flag\n");
           continue;
         }

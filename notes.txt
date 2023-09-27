@@ -1,0 +1,1 @@
+estou asusmindo que o comando start sempre é opírmeiro a ser executado
