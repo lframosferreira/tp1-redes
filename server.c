@@ -69,19 +69,28 @@ int main(int argc, char **argv) {
 
   fprintf(stdout, "cilent connected\n");
 
-  char curr_action[MAX_BUFFER_SIZE];
+  struct action curr_action;
 
   for (;;) {
-    memset(curr_action, 0, sizeof(curr_action));
+    memset(&curr_action, 0, sizeof(curr_action));
 
-    ssize_t bytes_received = recv(csockfd, curr_action, sizeof(curr_action), 0);
+    ssize_t bytes_received = recv(csockfd, &curr_action, sizeof(curr_action), 0);
     if (bytes_received == -1) {
       err_n_die("Error when using recv().\n");
     } else if (bytes_received == 0) {
       break;
     }
 
-    
+    // do game stuff
+    switch(curr_action.type){
+      
+    }
+
+    if (send(csockfd, &curr_action, sizeof(curr_action), 0) == -1){
+      err_n_die("Error using send().\n");
+    }
+
+
 
 
   }

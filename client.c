@@ -46,10 +46,8 @@ int main(int argc, char **argv) {
     }
 
     command = strtok(input_buffer, " ");
-
-    size_t new_line_pos = strlen(command) - 1;
-    command[new_line_pos] = '\0';
-
+    command[strcspn(command, "\n")] = '\0';
+  
     coordinates = strtok(NULL, " ");
     if (coordinates != NULL){
       char *first_coordinate = strtok(coordinates, ",");
@@ -59,21 +57,22 @@ int main(int argc, char **argv) {
     }
 
 
-    if (strcmp(input_buffer, "start") == 0) {
+    if (strcmp(command, "start") == 0) {
       curr_action.type = START;
-    } else if (strcmp(input_buffer, "reset") == 0) {
+    } else if (strcmp(command, "reset") == 0) {
       curr_action.type = RESET;
       fprintf(stdout, "starting new game\n");
-    } else if (strcmp(input_buffer, "exit") == 0) {
+    } else if (strcmp(command, "exit") == 0) {
       curr_action.type = EXIT;
-    } else if (strcmp(token, "reveal") == 0) {
+    } else if (strcmp(command, "reveal") == 0) {
         curr_action.type = REVEAL;
-      } else if (strcmp(token, "flag") == 0) {
+      } else if (strcmp(command, "flag") == 0) {
         curr_action.type = FLAG;
-      } else if (strcmp(input_buffer, "remove_flag") == 0) {
+      } else if (strcmp(command, "remove_flag") == 0) {
         curr_action.type = REMOVE_FLAG;
       } else {
         fprintf(stderr, "error: command not found\n");
+        continue; // dont send anything to server
       }
 
       if (send(sockfd, &curr_action, sizeof(curr_action), 0) == -1){
@@ -82,21 +81,13 @@ int main(int argc, char **argv) {
 
       memset(&curr_action, 0, sizeof(curr_action));
 
-      if (recv(sockfd, curr_action, sizeof(curr_action), 0) == -1){
-        err_n_die("Error on recv().\n");
-      }
-      
-
-       bytes_received = recv(sockfd, curr_action, sizeof(curr_action), 0);
+       bytes_received = recv(sockfd, &curr_action, sizeof(curr_action), 0);
         if (bytes_received == -1){
           err_n_die("Error when using recv().\n");
         } else if (bytes_received == 0){
           break;
         }
 
-    if (send(sockfd, input_buffer, sizeof(input_buffer), 0) == -1) {
-      err_n_die("Error on sending message to server.\n");
-    }
   }
 
   close(sockfd);
