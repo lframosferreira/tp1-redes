@@ -2,20 +2,6 @@
 
 // game related stuff
 
-void print_starting_board() {
-  char hidden_cell_repr = '-';
-  for (int i = 0; i < BOARD_SIZE; i++) {
-    for (int j = 0; j < BOARD_SIZE; j++) {
-      if (j == BOARD_SIZE - 1) {
-        fprintf(stdout, "%c", hidden_cell_repr);
-      } else {
-        fprintf(stdout, "%c\t\t", hidden_cell_repr);
-      }
-    }
-    fprintf(stdout, "\n");
-  }
-}
-
 void print_board(const int board[BOARD_SIZE][BOARD_SIZE]) {
   char repr;
   for (int i = 0; i < BOARD_SIZE; i++) {
@@ -44,6 +30,14 @@ void print_board(const int board[BOARD_SIZE][BOARD_SIZE]) {
       }
     }
     fprintf(stdout, "\n");
+  }
+}
+
+void reset_board(int board[BOARD_SIZE][BOARD_SIZE]) {
+  for (int i = 0; i < BOARD_SIZE; i++) {
+    for (int j = 0; j < BOARD_SIZE; j++) {
+      board[i][j] = -2;
+    }
   }
 }
 

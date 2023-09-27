@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
   }
 
   struct sockaddr_in servaddr;
-  bzero(&servaddr, sizeof(servaddr));
+  memset(&servaddr, 0, sizeof(servaddr));
   servaddr.sin_family = AF_INET;
   servaddr.sin_port = ntohs(server_port);
 
@@ -28,6 +28,8 @@ int main(int argc, char **argv) {
     err_n_die("Error on connecting to server.\n");
   }
 
+  int curr_board_state[BOARD_SIZE][BOARD_SIZE] = {
+      {-2, -2, -2, -2}, {-2, -2, -2, -2}, {-2, -2, -2, -2}, {-2, -2, -2, -2}};
   char command_buffer[MAX_BUFFER_SIZE];
   for (;;) {
 
@@ -38,8 +40,28 @@ int main(int argc, char **argv) {
     size_t new_line_pos = strlen(command_buffer) - 1;
     command_buffer[new_line_pos] = '\0';
 
-    if (strcmp(command_buffer, "start"))
-
+    if (strcmp(command_buffer, "start") == 0) {
+      print_board(curr_board_state);
+    } else if (strcmp(command_buffer, "reset") == 0) {
+      fprintf(stdout, "starting new game\n");
+      reset_board(curr_board_state);
+      print_board(curr_board_state);
+    } else if (strcmp(command_buffer, "exit") == 0) {
+      close(sockfd); // é isso msm?
+      exit(EXIT_SUCCESS);
+    } else {
+      char *token = strtok(command_buffer, " ");
+      char *coordinates = strtok(NULL, " ");
+      if (strcmp(token, "reveal") == 0) {
+        print_board(curr_board_state);
+      } else if (strcmp(token, "flag") == 0) {
+        print_board(curr_board_state);
+      } else if (strcmp(command_buffer, "remove_flag") == 0) {
+        print_board(curr_board_state);
+      } else {
+        fprintf(stderr, "error: command not found\n");
+      }
+    }
 
     if (send(sockfd, command_buffer, sizeof(command_buffer), 0) == -1) {
       err_n_die("Error on sending message to server.\n");

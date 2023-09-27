@@ -67,6 +67,8 @@ int main(int argc, char **argv) {
     err_n_die("Error on using accept().\n");
   }
 
+  fprintf(stdout, "cilent connected\n");
+
   char msg[MAX_BUFFER_SIZE];
 
   for (;;) {
