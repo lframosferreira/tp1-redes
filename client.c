@@ -105,6 +105,17 @@ int main(int argc, char **argv) {
     } else if (bytes_received == 0) {
       break;
     }
+
+    switch (curr_action.type){
+      case WIN:
+        fprintf(stdout, "VASCO\n");
+        break;
+      case GAME_OVER:
+        fprintf(stdout, "GOL DOS CARA\n");
+        break;
+      default:
+        break;
+    }
     print_board(curr_action.board);
   }
 
