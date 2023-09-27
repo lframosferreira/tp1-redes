@@ -25,6 +25,11 @@
 #define EXIT 7
 #define GAME_OVER 8
 
+// Cell types
+#define BOMB -1
+#define HIDDEN -2
+#define FLAGGED -3
+
 #define BOARD_SIZE 4
 
 #define MAX_BUFFER_SIZE 1024

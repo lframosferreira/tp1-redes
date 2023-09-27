@@ -7,16 +7,16 @@ void print_board(const int board[BOARD_SIZE][BOARD_SIZE]) {
   for (int i = 0; i < BOARD_SIZE; i++) {
     for (int j = 0; j < BOARD_SIZE; j++) {
       switch (board[i][j]) {
-      case -1:
+      case BOMB:
         repr = '*';
         break;
-      case -2:
+      case HIDDEN:
         repr = '-';
         break;
       case 0:
         repr = '0';
         break;
-      case -3:
+      case FLAGGED:
         repr = '>';
         break;
       default:
