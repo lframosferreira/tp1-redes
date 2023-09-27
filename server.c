@@ -69,19 +69,21 @@ int main(int argc, char **argv) {
 
   fprintf(stdout, "cilent connected\n");
 
-  char msg[MAX_BUFFER_SIZE];
+  char curr_action[MAX_BUFFER_SIZE];
 
   for (;;) {
-    memset(msg, 0, sizeof(msg));
+    memset(curr_action, 0, sizeof(curr_action));
 
-    ssize_t bytes_received = recv(csockfd, msg, sizeof(msg), 0);
+    ssize_t bytes_received = recv(csockfd, curr_action, sizeof(curr_action), 0);
     if (bytes_received == -1) {
       err_n_die("Error when using recv().\n");
     } else if (bytes_received == 0) {
       break;
     }
 
-    printf("o gigantesco %s", msg);
+    
+
+
   }
 
   close(csockfd);
