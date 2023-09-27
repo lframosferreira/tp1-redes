@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 
   // por agora, nao vamos nos preocupar com o aprse do arquivo de entrada. Hard
   // codar um board aqui
-  int board[BOARD_SIZE][BOARD_SIZE] = {
+  int game_board[BOARD_SIZE][BOARD_SIZE] = {
       {1, 2, -1, 1}, {1, -1, 2, 1}, {1, 2, 1, 1}, {0, 1, -1, 1}};
 
   int sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
   }
 
   struct sockaddr_in servaddr;
-  bzero(&servaddr, sizeof(servaddr));
+  memset(&servaddr, 0, sizeof(servaddr));
   servaddr.sin_family = AF_INET;
   servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
   servaddr.sin_port = htons(server_port);
@@ -70,10 +70,9 @@ int main(int argc, char **argv) {
   fprintf(stdout, "cilent connected\n");
 
   struct action curr_action;
+  memset(&curr_action, 0, sizeof(curr_action));
 
   for (;;) {
-    memset(&curr_action, 0, sizeof(curr_action));
-
     ssize_t bytes_received =
         recv(csockfd, &curr_action, sizeof(curr_action), 0);
     if (bytes_received == -1) {
@@ -92,9 +91,27 @@ int main(int argc, char **argv) {
       reset_board_state(curr_action.board);
       break;
     case REVEAL:
-      curr_action.board[c0][c1] = 'y';
+      if (game_board[c0][c1] == BOMB) {
+        curr_action.type = GAME_OVER;
+      } else {
+        curr_action.type = STATE;
+        curr_action.board[c0][c1] = game_board[c0][c1];
+      }
       break;
-
+    case FLAG:
+      curr_action.type = STATE;
+      curr_action.board[c0][c1] = FLAGGED;
+      break;
+    case REMOVE_FLAG:
+      curr_action.type = STATE;
+      curr_action.board[c0][c1] = HIDDEN;
+      break;
+    case RESET:
+      curr_action.type = STATE;
+      reset_board_state(curr_action.board);
+    case EXIT:
+      close(csockfd);
+      break;
     default:
       break;
     }
