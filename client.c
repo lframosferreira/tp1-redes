@@ -28,16 +28,16 @@ int main(int argc, char **argv) {
     err_n_die("Error on connecting to server.\n");
   }
 
-  int board_state[BOARD_SIZE][BOARD_SIZE] = {
-      {-2, -2, -2, -2}, {-2, -2, -2, -2}, {-2, -2, -2, -2}, {-2, -2, -2, -2}};
-
   char input_buffer[MAX_BUFFER_SIZE];
   char *command;
   char *coordinates;
   ssize_t bytes_received;
+  struct action curr_action;
+
+  
+
   for (;;) {
 
-    struct action curr_action;
     memset(&curr_action, 0, sizeof(curr_action));
 
     memset(input_buffer, 0, sizeof(input_buffer));
@@ -87,6 +87,7 @@ int main(int argc, char **argv) {
         } else if (bytes_received == 0){
           break;
         }
+      print_board(curr_action.board);
 
   }
 

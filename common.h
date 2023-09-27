@@ -43,7 +43,7 @@ struct action {
 // game related stuff
 
 void print_board(const int board[BOARD_SIZE][BOARD_SIZE]);
-void reset_board(int board[BOARD_SIZE][BOARD_SIZE]);
+void reset_board_state(int board[BOARD_SIZE][BOARD_SIZE]);
 void parse_input(const char *filepath);
 
 // general

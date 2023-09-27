@@ -82,8 +82,15 @@ int main(int argc, char **argv) {
     }
 
     // do game stuff
-    switch(curr_action.type){
-      
+    switch (curr_action.type){
+      case START:
+        reset_board_state(curr_action.board);
+      break;
+      case REVEAL:
+        break;
+
+        default:
+          break;
     }
 
     if (send(csockfd, &curr_action, sizeof(curr_action), 0) == -1){

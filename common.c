@@ -33,10 +33,10 @@ void print_board(const int board[BOARD_SIZE][BOARD_SIZE]) {
   }
 }
 
-void reset_board(int board[BOARD_SIZE][BOARD_SIZE]) {
+void reset_board_state(int board[BOARD_SIZE][BOARD_SIZE]) {
   for (int i = 0; i < BOARD_SIZE; i++) {
     for (int j = 0; j < BOARD_SIZE; j++) {
-      board[i][j] = -2;
+      board[i][j] = HIDDEN;
     }
   }
 }
