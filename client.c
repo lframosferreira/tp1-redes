@@ -33,14 +33,10 @@ int main(int argc, char **argv) {
   char *coordinates;
   ssize_t bytes_received;
 
-  
   struct action curr_action;
   memset(&curr_action, 0, sizeof(curr_action));
 
-  
-
   for (;;) {
-
 
     memset(input_buffer, 0, sizeof(input_buffer));
     if (fgets(input_buffer, sizeof(input_buffer), stdin) == NULL) {
@@ -49,15 +45,14 @@ int main(int argc, char **argv) {
 
     command = strtok(input_buffer, " ");
     command[strcspn(command, "\n")] = '\0';
-  
+
     coordinates = strtok(NULL, " ");
-    if (coordinates != NULL){
+    if (coordinates != NULL) {
       char *first_coordinate = strtok(coordinates, ",");
       char *second_coordinate = strtok(NULL, ",");
       curr_action.coordinates[0] = atoi(first_coordinate);
       curr_action.coordinates[1] = atoi(second_coordinate);
     }
-
 
     if (strcmp(command, "start") == 0) {
       curr_action.type = START;
@@ -67,47 +62,50 @@ int main(int argc, char **argv) {
     } else if (strcmp(command, "exit") == 0) {
       curr_action.type = EXIT;
     } else if (strcmp(command, "reveal") == 0) {
-        curr_action.type = REVEAL;
-        if (is_out_of_bounds(curr_action.coordinates)){
-          fprintf(stdout, "error: invalid cell\n");
-          continue;
-        }
-        if (curr_action.board[curr_action.coordinates[0]][curr_action.coordinates[1]] != HIDDEN){
-          printf("olha eu: %d\n",curr_action.board[curr_action.coordinates[0]][curr_action.coordinates[1]]);
-          fprintf(stdout, "error: cell already revealed\n");
-          continue;
-        }
-      } else if (strcmp(command, "flag") == 0) {
-        curr_action.type = FLAG;
-        if (curr_action.board[curr_action.coordinates[0]][curr_action.coordinates[1]] != HIDDEN){
-          fprintf(stdout, "error: cannot insert flag in revealed cell\n");
-          continue;
-        }
-        if (curr_action.board[curr_action.coordinates[0]][curr_action.coordinates[1]] == FLAGGED){
-          fprintf(stdout, "error: cell already has flag\n");
-          continue;
-        }
-      } else if (strcmp(command, "remove_flag") == 0) {
-        curr_action.type = REMOVE_FLAG;
-      } else {
-        fprintf(stdout, "error: command not found\n");
-        continue; // dont send anything to server
+      curr_action.type = REVEAL;
+      if (is_out_of_bounds(curr_action.coordinates)) {
+        fprintf(stdout, "error: invalid cell\n");
+        continue;
       }
-
-      if (send(sockfd, &curr_action, sizeof(curr_action), 0) == -1){
-        err_n_die("Error on using send().\n");
+      if (curr_action.board[curr_action.coordinates[0]]
+                           [curr_action.coordinates[1]] != HIDDEN) {
+        printf("olha eu: %d\n", curr_action.board[curr_action.coordinates[0]]
+                                                 [curr_action.coordinates[1]]);
+        fprintf(stdout, "error: cell already revealed\n");
+        continue;
       }
+    } else if (strcmp(command, "flag") == 0) {
+      curr_action.type = FLAG;
+      if (curr_action.board[curr_action.coordinates[0]]
+                           [curr_action.coordinates[1]] != HIDDEN) {
+        fprintf(stdout, "error: cannot insert flag in revealed cell\n");
+        continue;
+      }
+      if (curr_action.board[curr_action.coordinates[0]]
+                           [curr_action.coordinates[1]] == FLAGGED) {
+        fprintf(stdout, "error: cell already has flag\n");
+        continue;
+      }
+    } else if (strcmp(command, "remove_flag") == 0) {
+      curr_action.type = REMOVE_FLAG;
+    } else {
+      fprintf(stdout, "error: command not found\n");
+      continue; // dont send anything to server
+    }
 
-      memset(&curr_action, 0, sizeof(curr_action));
+    if (send(sockfd, &curr_action, sizeof(curr_action), 0) == -1) {
+      err_n_die("Error on using send().\n");
+    }
 
-       bytes_received = recv(sockfd, &curr_action, sizeof(curr_action), 0);
-        if (bytes_received == -1){
-          err_n_die("Error when using recv().\n");
-        } else if (bytes_received == 0){
-          break;
-        }
-      print_board(curr_action.board);
+    memset(&curr_action, 0, sizeof(curr_action));
 
+    bytes_received = recv(sockfd, &curr_action, sizeof(curr_action), 0);
+    if (bytes_received == -1) {
+      err_n_die("Error when using recv().\n");
+    } else if (bytes_received == 0) {
+      break;
+    }
+    print_board(curr_action.board);
   }
 
   close(sockfd);

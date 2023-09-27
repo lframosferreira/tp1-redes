@@ -87,6 +87,7 @@ void err_n_die(const char *msg) {
   exit(EXIT_FAILURE);
 }
 
-bool is_out_of_bounds(const int coordinates[2]){
-  return coordinates[0] < 0 || coordinates[0] > BOARD_SIZE - 1 || coordinates[1] < 0 || coordinates[1] > BOARD_SIZE - 1;
+bool is_out_of_bounds(const int coordinates[2]) {
+  return coordinates[0] < 0 || coordinates[0] > BOARD_SIZE - 1 ||
+         coordinates[1] < 0 || coordinates[1] > BOARD_SIZE - 1;
 }
