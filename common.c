@@ -82,9 +82,11 @@ void client_usage(FILE *fp, const char *path) {
   fprintf(fp, "usage: %s [SERVER_ADDR] [PORT]\n", basename);
 }
 
-void parse_addr(const char *addr) { return; }
-
 void err_n_die(const char *msg) {
   perror(msg);
   exit(EXIT_FAILURE);
+}
+
+bool is_out_of_bounds(const int coordinates[2]){
+  return coordinates[0] < 0 || coordinates[0] > BOARD_SIZE - 1 || coordinates[1] < 0 || coordinates[1] > BOARD_SIZE - 1;
 }

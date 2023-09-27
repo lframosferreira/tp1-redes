@@ -66,12 +66,28 @@ int main(int argc, char **argv) {
       curr_action.type = EXIT;
     } else if (strcmp(command, "reveal") == 0) {
         curr_action.type = REVEAL;
+        if (is_out_of_bounds(curr_action.coordinates)){
+          fprintf(stdout, "error: invalid cell\n");
+          continue;
+        }
+        if (curr_action.board[coordinates[0]][coordinates[1]] != HIDDEN){
+          fprintf(stdout, "error: cell already revealed\n");
+          continue;
+        }
       } else if (strcmp(command, "flag") == 0) {
         curr_action.type = FLAG;
+        if (curr_action.board[coordinates[0]][coordinates[1]] != HIDDEN){
+          fprintf(stdout, "error: cannot insert flag in revealed cell\n");
+          continue;
+        }
+        if (curr_action.board[coordinates[0]][coordinates[1]] == FLAGGED){
+          fprintf(stdout, "error: cell already has flag\n");
+          continue;
+        }
       } else if (strcmp(command, "remove_flag") == 0) {
         curr_action.type = REMOVE_FLAG;
       } else {
-        fprintf(stderr, "error: command not found\n");
+        fprintf(stdout, "error: command not found\n");
         continue; // dont send anything to server
       }
 

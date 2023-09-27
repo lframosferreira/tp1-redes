@@ -11,6 +11,8 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <stdbool.h>
+
 
 // talvez maros para tipos de celulas?
 
@@ -50,7 +52,7 @@ void parse_input(const char *filepath);
 
 void server_usage(FILE *fp, const char *path);
 void client_usage(FILE *fp, const char *path);
-void parse_addr(const char *addr);
 void err_n_die(const char *msg);
+bool is_out_of_bounds(const int coordinates[2]);
 
 #endif
