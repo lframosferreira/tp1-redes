@@ -40,6 +40,8 @@ int main(int argc, char **argv) {
   int game_board[BOARD_SIZE][BOARD_SIZE] = {
       {1, 2, -1, 1}, {1, -1, 2, 1}, {1, 2, 1, 1}, {0, 1, -1, 1}};
 
+  parse_input(input_file_path, game_board);
+
   int sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1) {
     err_n_die("Error while opening server socket.\n");
@@ -71,6 +73,8 @@ int main(int argc, char **argv) {
 
   struct action curr_action;
   memset(&curr_action, 0, sizeof(curr_action));
+  int revealed_cell_count = 0;
+  const int NOT_BOMB_CELL_COUNT = 13;
 
   for (;;) {
     ssize_t bytes_received =
@@ -97,9 +101,19 @@ int main(int argc, char **argv) {
           }
         }
       } else {
+        revealed_cell_count++;
+        if (revealed_cell_count == NOT_BOMB_CELL_COUNT) {
+        curr_action.type = WIN;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+          for (int j = 0; j < BOARD_SIZE; j++) {
+            curr_action.board[i][j] = game_board[i][j];
+          }
+        }      
+      } 
+      else {
         curr_action.type = STATE;
         curr_action.board[c0][c1] = game_board[c0][c1];
-      }
+      }}
       break;
     case FLAG:
       curr_action.type = STATE;

@@ -45,7 +45,7 @@ struct action {
 
 void print_board(const int board[BOARD_SIZE][BOARD_SIZE]);
 void reset_board_state(int board[BOARD_SIZE][BOARD_SIZE]);
-void parse_input(const char *filepath);
+void parse_input(const char *input_file_path, int board[BOARD_SIZE][BOARD_SIZE]);
 
 // general
 

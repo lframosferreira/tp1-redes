@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 
     memset(input_buffer, 0, sizeof(input_buffer));
     if (fgets(input_buffer, sizeof(input_buffer), stdin) == NULL) {
-      err_n_die("fgets.\n");
+      err_n_die("Error while reading client input using fgets().\n");
     }
 
     command = strtok(input_buffer, " ");

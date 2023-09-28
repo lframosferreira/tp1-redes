@@ -41,32 +41,32 @@ void reset_board_state(int board[BOARD_SIZE][BOARD_SIZE]) {
   }
 }
 
-void parse_input(const char *file_path) {
-  FILE *fp = fopen(file_path, "r");
+void parse_input(const char *input_file_path, int board[BOARD_SIZE][BOARD_SIZE]) {
+  FILE *fp = fopen(input_file_path, "r");
   if (fp == NULL) {
-    perror("Error while opening the input file\n");
-    exit(EXIT_FAILURE);
+   err_n_die("Error while opening the input file\n");
   }
-  int board[BOARD_SIZE][BOARD_SIZE];
-  fseek(fp, 0, SEEK_END);
-  long filesize = ftell(fp);
-  fseek(fp, 0, SEEK_SET);
-  char *content = (char *)malloc(filesize + 1);
-  if (content == NULL) {
-    fclose(fp);
-    perror("Error while allocating memory for the file content buffer\n");
-    exit(EXIT_FAILURE);
+
+  char line_buffer[MAX_BUFFER_SIZE];
+
+  int i = 0;
+  char *token;
+  while (fgets(line_buffer, sizeof(line_buffer), fp) != NULL){
+    board[i][0] = atoi(strtok(line_buffer, ","));
+    board[i][1] = atoi(strtok(NULL, ","));
+    board[i][2] = atoi(strtok(NULL, ","));
+    board[i][3] = atoi(strtok(NULL, ","));
+    i++;
   }
-  // checar possivel erro: nro de bytes lidos esta correto? (retorno de fread)
-  if (fread(content, sizeof(char), filesize, fp) != filesize) {
-    perror("Error while reading from input file\n");
-    exit(EXIT_FAILURE);
+
+  for (int i = 0; i < 4; i++){
+    for (int j = 0; j < 4; j++){
+      fprintf(stdout, "%d \n", board[i][j]);
+    }
   }
-  printf("%s\n", content);
+  
   fclose(fp);
 }
-
-// general
 
 void server_usage(FILE *fp, const char *path) {
   const char *basename = strrchr(path, '/');
