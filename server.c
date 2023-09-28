@@ -81,8 +81,6 @@ int main(int argc, char **argv) {
       break;
     }
 
-    // do game stuff
-
     int c0 = curr_action.coordinates[0];
     int c1 = curr_action.coordinates[1];
 
@@ -93,6 +91,11 @@ int main(int argc, char **argv) {
     case REVEAL:
       if (game_board[c0][c1] == BOMB) {
         curr_action.type = GAME_OVER;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+          for (int j = 0; j < BOARD_SIZE; j++) {
+            curr_action.board[i][j] = game_board[i][j];
+          }
+        }
       } else {
         curr_action.type = STATE;
         curr_action.board[c0][c1] = game_board[c0][c1];

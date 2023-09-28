@@ -54,7 +54,8 @@ int main(int argc, char **argv) {
       curr_action.coordinates[1] = atoi(second_coordinate);
     }
 
-    //fzr c0 e c1 igual no server
+    int c0 = curr_action.coordinates[0];
+    int c1 = curr_action.coordinates[1];
 
     if (strcmp(command, "start") == 0) {
       curr_action.type = START;
@@ -69,22 +70,18 @@ int main(int argc, char **argv) {
         fprintf(stdout, "error: invalid cell\n");
         continue;
       }
-      if (curr_action.board[curr_action.coordinates[0]]
-                           [curr_action.coordinates[1]] != HIDDEN &&
-          curr_action.board[curr_action.coordinates[0]]
-                           [curr_action.coordinates[1]] != FLAGGED) {
+      if (curr_action.board[c0][c1] != HIDDEN &&
+          curr_action.board[c0][c1] != FLAGGED) {
         fprintf(stdout, "error: cell already revealed\n");
         continue;
       }
     } else if (strcmp(command, "flag") == 0) {
       curr_action.type = FLAG;
-      if (curr_action.board[curr_action.coordinates[0]]
-                           [curr_action.coordinates[1]] != HIDDEN) {
+      if (curr_action.board[c0][c1] != HIDDEN) {
         fprintf(stdout, "error: cannot insert flag in revealed cell\n");
         continue;
       }
-      if (curr_action.board[curr_action.coordinates[0]]
-                           [curr_action.coordinates[1]] == FLAGGED) {
+      if (curr_action.board[c0][c1] == FLAGGED) {
         fprintf(stdout, "error: cell already has flag\n");
         continue;
       }
