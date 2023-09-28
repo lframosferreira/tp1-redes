@@ -1,1 +1,3 @@
-estou asusmindo que o comando start sempre é opírmeiro a ser executado
+1. Fazer dinamico entre ipv4 e ipv6
+2. Checar se todos os erros estão sendo considerados
+3. Utilizar o getopt corretamente

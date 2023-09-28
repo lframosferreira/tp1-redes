@@ -35,11 +35,7 @@ int main(int argc, char **argv) {
 
   int server_port = atoi(argv[2]);
 
-  // por agora, nao vamos nos preocupar com o aprse do arquivo de entrada. Hard
-  // codar um board aqui
-  int game_board[BOARD_SIZE][BOARD_SIZE] = {
-      {1, 2, -1, 1}, {1, -1, 2, 1}, {1, 2, 1, 1}, {0, 1, -1, 1}};
-
+  int game_board[BOARD_SIZE][BOARD_SIZE];
   parse_input(input_file_path, game_board);
 
   int sockfd = socket(AF_INET, SOCK_STREAM, 0);
