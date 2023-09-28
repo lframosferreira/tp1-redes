@@ -36,7 +36,7 @@ clean:
 	rm $(OBJ)/*
 
 testeserver:
-	./bin/server v4 51511 input/jogo1.txt
+	./bin/server v4 51511 -i input/jogo1.txt
 
 testeclient:
 	./bin/client 127.0.0.1 51511

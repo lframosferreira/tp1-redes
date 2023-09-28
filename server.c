@@ -2,25 +2,10 @@
 
 int main(int argc, char **argv) {
 
-  if (argc != 4) {
+  if (argc != 5) {
     server_usage(stderr, argv[0]);
     exit(EXIT_FAILURE);
   }
-
-  /* int option;
-  char *input_file_path;
-  while ((option = getopt(argc, argv, "i:")) != -1) {
-    switch (option) {
-    case 'i':
-      input_file_path = optarg;
-      break;
-    case '?':
-      server_usage(stderr, argv[0]);
-      exit(EXIT_FAILURE);
-    }
-  } */
-
-  char *input_file_path = argv[3];
 
   // fazer strcmp e gerar inteiro correto AF_INET ou AF_INET6
   char *ip_protocol = argv[1];
@@ -30,10 +15,23 @@ int main(int argc, char **argv) {
   } else if (strcmp(ip_protocol, "v6")) {
     domain = AF_INET6;
   } else {
-    err_n_die("Protocol family not supserver_ported\n");
+    err_n_die("Protocol family not supported\n");
   }
 
   int server_port = atoi(argv[2]);
+
+  char *input_file_path;
+  int option;
+  while ((option = getopt(argc, argv, "i:")) != -1) {
+    switch (option) {
+    case 'i':
+      input_file_path = optarg;
+      break;
+    case '?':
+      server_usage(stderr, argv[0]);
+      exit(EXIT_FAILURE);
+    }
+  }
 
   int game_board[BOARD_SIZE][BOARD_SIZE];
   parse_input(input_file_path, game_board);
