@@ -96,6 +96,11 @@ int main(int argc, char **argv) {
       err_n_die("Error on using send().\n");
     }
 
+    // Se for mensagem de exit, saímos do jogo
+    if (curr_action.type == EXIT){
+      break;
+    }
+
     memset(&curr_action, 0, sizeof(curr_action));
 
     bytes_received = recv(sockfd, &curr_action, sizeof(curr_action), 0);
@@ -119,6 +124,5 @@ int main(int argc, char **argv) {
   }
 
   close(sockfd);
-
   return 0;
 }
