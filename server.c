@@ -51,11 +51,11 @@ int main(int argc, char **argv) {
 
 
   if (bind(sockfd, (struct sockaddr *)(&servaddr), sizeof(servaddr)) == -1) {
-    err_n_die("Error in bind.\n");
+    err_n_die("Error in bind().\n");
   }
 
   if (listen(sockfd, 10) == -1) {
-    err_n_die("Error on listen.\n");
+    err_n_die("Error on listen().\n");
   }
 
   struct sockaddr_in client_addr;

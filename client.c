@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 
   int sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1) {
-    err_n_die("Erro while opening client socket\n.");
+    err_n_die("Erro while opening client socket.\n");
   }
 
   struct sockaddr_in servaddr;
@@ -21,11 +21,11 @@ int main(int argc, char **argv) {
   servaddr.sin_port = ntohs(server_port);
 
   if (inet_pton(AF_INET, argv[1], &servaddr.sin_addr) <= 0) {
-    err_n_die("Error on using inet_pton.\n");
+    err_n_die("Error while using inet_pton().\n");
   }
 
   if (connect(sockfd, (struct sockaddr *)(&servaddr), sizeof(servaddr)) == -1) {
-    err_n_die("Error on connecting to server.\n");
+    err_n_die("Error while connecting to server.\n");
   }
 
   char input_buffer[MAX_BUFFER_SIZE];
@@ -112,10 +112,10 @@ int main(int argc, char **argv) {
 
     switch (curr_action.type) {
     case WIN:
-      fprintf(stdout, "VASCO\n");
+      fprintf(stdout, "YOU WIN!\n");
       break;
     case GAME_OVER:
-      fprintf(stdout, "GOL DOS CARA\n");
+      fprintf(stdout, "GAME OVER!\n");
       break;
     default:
       break;
