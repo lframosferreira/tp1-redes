@@ -54,6 +54,8 @@ int main(int argc, char **argv) {
       curr_action.coordinates[1] = atoi(second_coordinate);
     }
 
+    //fzr c0 e c1 igual no server
+
     if (strcmp(command, "start") == 0) {
       curr_action.type = START;
     } else if (strcmp(command, "reset") == 0) {
@@ -68,9 +70,9 @@ int main(int argc, char **argv) {
         continue;
       }
       if (curr_action.board[curr_action.coordinates[0]]
-                           [curr_action.coordinates[1]] != HIDDEN) {
-        printf("olha eu: %d\n", curr_action.board[curr_action.coordinates[0]]
-                                                 [curr_action.coordinates[1]]);
+                           [curr_action.coordinates[1]] != HIDDEN &&
+          curr_action.board[curr_action.coordinates[0]]
+                           [curr_action.coordinates[1]] != FLAGGED) {
         fprintf(stdout, "error: cell already revealed\n");
         continue;
       }
@@ -106,15 +108,15 @@ int main(int argc, char **argv) {
       break;
     }
 
-    switch (curr_action.type){
-      case WIN:
-        fprintf(stdout, "VASCO\n");
-        break;
-      case GAME_OVER:
-        fprintf(stdout, "GOL DOS CARA\n");
-        break;
-      default:
-        break;
+    switch (curr_action.type) {
+    case WIN:
+      fprintf(stdout, "VASCO\n");
+      break;
+    case GAME_OVER:
+      fprintf(stdout, "GOL DOS CARA\n");
+      break;
+    default:
+      break;
     }
     print_board(curr_action.board);
   }

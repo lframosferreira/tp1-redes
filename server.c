@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
       curr_action.type = STATE;
       reset_board_state(curr_action.board);
     case EXIT:
-      close(csockfd);
+      fprintf(stdout, "client disconnected\n");
       break;
     default:
       break;
