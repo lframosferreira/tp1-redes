@@ -1,8 +1,27 @@
 # Trabalho Prático I da dispiclina de Redes de Computadores
-Professor: Marcos Augusto Menezes Vieira
 
-## TODO
+## Professor: Marcos Augusto Menezes Vieira
 
-1. Adicionar mensagens de erro melhores
-2. Checar possível erro na função de leitura do arquivo com fread
-3. Utilizar strtok para fazer o parse da string para a matriz
+- Para compilar tudo, é necessário ter o `gcc` e o `make` instalados em sua máquina e utilizar o comando a seguir:
+
+  `make`
+
+- Para inicializar o servidor:
+
+  `./bin/server [ADDR_FAMILY] [PORT] -i [INPUT_FILE_PATH]`
+
+- Para inicializar o cliente:
+
+  `./bin/client [SERVER_IP] [PORT]`
+
+## Exemplos de uso
+
+### IPv4
+
+`./bin/server v4 51511 -i input/jogo1.txt`
+`./bin/client 127.0.0.1 51511`
+
+### IPv6
+
+`./bin/server v6 51511 -i input/jogo1.txt`
+`./bin/client ::1 51511`

@@ -1,5 +1,0 @@
-1. Fazer dinamico entre ipv4 e ipv6
-2. Checar se todos os erros estão sendo considerados
-
-
-OBS: PROBLEMAS QUANDO NAO USAMOS START
