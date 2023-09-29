@@ -41,8 +41,10 @@ struct action {
 
 void print_board(const int board[BOARD_SIZE][BOARD_SIZE]);
 void reset_board_state(int board[BOARD_SIZE][BOARD_SIZE]);
-void parse_input(const char *input_file_path, int board[BOARD_SIZE][BOARD_SIZE]);
-
+void parse_input(const char *input_file_path,
+                 int board[BOARD_SIZE][BOARD_SIZE]);
+int addrparser(const char *addr_family, const char *portstr,
+              struct sockaddr_storage *storage);
 void server_usage(FILE *fp, const char *path);
 void client_usage(FILE *fp, const char *path);
 void err_n_die(const char *msg);

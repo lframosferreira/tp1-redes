@@ -41,17 +41,17 @@ void reset_board_state(int board[BOARD_SIZE][BOARD_SIZE]) {
   }
 }
 
-void parse_input(const char *input_file_path, int board[BOARD_SIZE][BOARD_SIZE]) {
+void parse_input(const char *input_file_path,
+                 int board[BOARD_SIZE][BOARD_SIZE]) {
   FILE *fp = fopen(input_file_path, "r");
   if (fp == NULL) {
-   err_n_die("Error while opening the input file\n");
+    err_n_die("Error while opening the input file\n");
   }
 
   char line_buffer[MAX_BUFFER_SIZE];
 
   int i = 0;
-  char *token;
-  while (fgets(line_buffer, sizeof(line_buffer), fp) != NULL){
+  while (fgets(line_buffer, sizeof(line_buffer), fp) != NULL) {
     board[i][0] = atoi(strtok(line_buffer, ","));
     board[i][1] = atoi(strtok(NULL, ","));
     board[i][2] = atoi(strtok(NULL, ","));
@@ -59,13 +59,37 @@ void parse_input(const char *input_file_path, int board[BOARD_SIZE][BOARD_SIZE])
     i++;
   }
 
-  for (int i = 0; i < 4; i++){
-    for (int j = 0; j < 4; j++){
-      fprintf(stdout, "%d \n", board[i][j]);
-    }
-  }
-  
   fclose(fp);
+}
+
+// Função baseada na implementação disponibilizada na playlist do professor
+// Ítalo Cunha https://www.youtube.com/watch?v=tJ3qNtv0HVs&t=2s
+int addrparser(const char *addr_family, const char *portstr,
+               struct sockaddr_storage *storage) {
+  if (portstr == NULL) {
+    return -1;
+  }
+  uint16_t port = (uint16_t)atoi(portstr);
+  if (port == 0) {
+    return -1;
+  }
+  port = htons(port);
+
+  if (strcmp(addr_family, "v4") == 0) {
+    struct sockaddr_in *addr4 = (struct sockaddr_in *)storage;
+    addr4->sin_family = AF_INET;
+    addr4->sin_port = port;
+    return 0;
+  }
+
+  if (strcmp(addr_family, "v6") == 0) {
+    struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *)storage;
+    addr6->sin6_family = AF_INET6;
+    addr6->sin6_port = port;
+    return 0;
+  }
+
+  return -1;
 }
 
 void server_usage(FILE *fp, const char *path) {

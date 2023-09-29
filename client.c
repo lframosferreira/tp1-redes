@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
     }
 
     // Se for mensagem de exit, saímos do jogo
-    if (curr_action.type == EXIT){
+    if (curr_action.type == EXIT) {
       break;
     }
 

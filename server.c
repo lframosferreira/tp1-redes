@@ -7,26 +7,12 @@ int main(int argc, char **argv) {
     exit(EXIT_FAILURE);
   }
 
-  int server_port = atoi(argv[2]);
+  char *addr_family = argv[1];
+  char *portstr = argv[2];
 
-  char *ip_protocol = argv[1];
-  int domain;
-  if (strcmp(ip_protocol, "v4")) {
-    domain = AF_INET;
-  } else if (strcmp(ip_protocol, "v6")) {
-    domain = AF_INET6;
-  } else {
-    err_n_die("Protocol family not supported\n");
-  }
-
-
-  struct sockaddr_in servaddr;
+  struct sockaddr_storage servaddr;
   memset(&servaddr, 0, sizeof(servaddr));
-  servaddr.sin_family = AF_INET;
-  servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-  servaddr.sin_port = htons(server_port);
-
-
+  addrparser(addr_family, portstr, &servaddr);
 
   char *input_file_path;
   int option;
@@ -48,7 +34,6 @@ int main(int argc, char **argv) {
   if (sockfd == -1) {
     err_n_die("Error while opening server socket.\n");
   }
-
 
   if (bind(sockfd, (struct sockaddr *)(&servaddr), sizeof(servaddr)) == -1) {
     err_n_die("Error in bind().\n");
@@ -100,17 +85,17 @@ int main(int argc, char **argv) {
       } else {
         revealed_cell_count++;
         if (revealed_cell_count == NOT_BOMB_CELL_COUNT) {
-        curr_action.type = WIN;
-        for (int i = 0; i < BOARD_SIZE; i++) {
-          for (int j = 0; j < BOARD_SIZE; j++) {
-            curr_action.board[i][j] = game_board[i][j];
+          curr_action.type = WIN;
+          for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+              curr_action.board[i][j] = game_board[i][j];
+            }
           }
-        }      
-      } 
-      else {
-        curr_action.type = STATE;
-        curr_action.board[c0][c1] = game_board[c0][c1];
-      }}
+        } else {
+          curr_action.type = STATE;
+          curr_action.board[c0][c1] = game_board[c0][c1];
+        }
+      }
       break;
     case FLAG:
       curr_action.type = STATE;
@@ -123,6 +108,7 @@ int main(int argc, char **argv) {
     case RESET:
       curr_action.type = STATE;
       reset_board_state(curr_action.board);
+      break;
     case EXIT:
       fprintf(stdout, "client disconnected\n");
       break;
