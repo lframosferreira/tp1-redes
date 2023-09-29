@@ -43,11 +43,15 @@ void print_board(const int board[BOARD_SIZE][BOARD_SIZE]);
 void reset_board_state(int board[BOARD_SIZE][BOARD_SIZE]);
 void parse_input(const char *input_file_path,
                  int board[BOARD_SIZE][BOARD_SIZE]);
-int addrparser(const char *addr_family, const char *portstr,
-              struct sockaddr_storage *storage);
 void server_usage(FILE *fp, const char *path);
 void client_usage(FILE *fp, const char *path);
 void err_n_die(const char *msg);
 bool is_out_of_bounds(const int coordinates[2]);
 
+// Funções baseada na implementação disponibilizada na playlist do professor
+// Ítalo Cunha https://www.youtube.com/watch?v=tJ3qNtv0HVs&t=2s
+int addrparse(const char *addrstr, const char *portstr,
+               struct sockaddr_storage *storage);
+int server_sockaddr_init(const char *addr_family, const char *porstr,
+                         struct sockaddr_storage *storage);
 #endif

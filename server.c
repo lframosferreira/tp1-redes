@@ -12,7 +12,10 @@ int main(int argc, char **argv) {
 
   struct sockaddr_storage servaddr;
   memset(&servaddr, 0, sizeof(servaddr));
-  addrparser(addr_family, portstr, &servaddr);
+
+  if (server_sockaddr_init(addr_family, portstr, &servaddr) == -1) {
+    err_n_die("Error while using server_sockaddr_init().\n");
+  }
 
   char *input_file_path;
   int option;
@@ -30,7 +33,7 @@ int main(int argc, char **argv) {
   int game_board[BOARD_SIZE][BOARD_SIZE];
   parse_input(input_file_path, game_board);
 
-  int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  int sockfd = socket(servaddr.ss_family, SOCK_STREAM, 0);
   if (sockfd == -1) {
     err_n_die("Error while opening server socket.\n");
   }
@@ -43,7 +46,7 @@ int main(int argc, char **argv) {
     err_n_die("Error on listen().\n");
   }
 
-  struct sockaddr_in client_addr;
+  struct sockaddr_storage client_addr;
   socklen_t client_addr_len = sizeof(client_addr);
   int csockfd =
       accept(sockfd, (struct sockaddr *)(&client_addr), &client_addr_len);

@@ -38,5 +38,11 @@ clean:
 testeserver:
 	./bin/server v4 51511 -i input/jogo1.txt
 
+testeserver6:
+	./bin/server v6 51511 -i input/jogo1.txt
+
 testeclient:
 	./bin/client 127.0.0.1 51511
+
+testeclient6:
+	./bin/client ::1 51511

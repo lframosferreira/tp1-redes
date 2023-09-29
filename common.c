@@ -62,36 +62,6 @@ void parse_input(const char *input_file_path,
   fclose(fp);
 }
 
-// Função baseada na implementação disponibilizada na playlist do professor
-// Ítalo Cunha https://www.youtube.com/watch?v=tJ3qNtv0HVs&t=2s
-int addrparser(const char *addr_family, const char *portstr,
-               struct sockaddr_storage *storage) {
-  if (portstr == NULL) {
-    return -1;
-  }
-  uint16_t port = (uint16_t)atoi(portstr);
-  if (port == 0) {
-    return -1;
-  }
-  port = htons(port);
-
-  if (strcmp(addr_family, "v4") == 0) {
-    struct sockaddr_in *addr4 = (struct sockaddr_in *)storage;
-    addr4->sin_family = AF_INET;
-    addr4->sin_port = port;
-    return 0;
-  }
-
-  if (strcmp(addr_family, "v6") == 0) {
-    struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *)storage;
-    addr6->sin6_family = AF_INET6;
-    addr6->sin6_port = port;
-    return 0;
-  }
-
-  return -1;
-}
-
 void server_usage(FILE *fp, const char *path) {
   const char *basename = strrchr(path, '/');
   basename = basename ? basename + 1 : path;
@@ -114,4 +84,70 @@ void err_n_die(const char *msg) {
 bool is_out_of_bounds(const int coordinates[2]) {
   return coordinates[0] < 0 || coordinates[0] > BOARD_SIZE - 1 ||
          coordinates[1] < 0 || coordinates[1] > BOARD_SIZE - 1;
+}
+
+int addrparse(const char *addrstr, const char *portstr,
+              struct sockaddr_storage *storage) {
+  if (addrstr == NULL || portstr == NULL) {
+    return -1;
+  }
+  uint16_t port = (uint16_t)atoi(portstr);
+  if (port == 0) {
+    return -1;
+  }
+  port = htons(port);
+
+  memset(storage, 0, sizeof(*storage));
+
+  struct in_addr inaddr4;
+  if (inet_pton(AF_INET, addrstr, &inaddr4) == 1) {
+    struct sockaddr_in *addr4 = (struct sockaddr_in *)storage;
+    addr4->sin_family = AF_INET;
+    addr4->sin_port = port;
+    addr4->sin_addr = inaddr4;
+    return 0;
+  }
+
+  struct in6_addr inaddr6;
+  if (inet_pton(AF_INET6, addrstr, &inaddr6) == 1) {
+    struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *)storage;
+    addr6->sin6_family = AF_INET6;
+    addr6->sin6_port = port;
+    memcpy(&(addr6->sin6_addr), &inaddr6, sizeof(inaddr6));
+    return 0;
+  }
+
+  return -1;
+}
+
+int server_sockaddr_init(const char *addr_family, const char *portstr,
+                         struct sockaddr_storage *storage) {
+  if (addr_family == NULL || portstr == NULL) {
+    return -1;
+  }
+  uint16_t port = (uint16_t)atoi(portstr);
+  if (port == 0) {
+    return -1;
+  }
+  port = htons(port);
+
+  memset(storage, 0, sizeof(*storage));
+
+  if (strcmp(addr_family, "v4") == 0) {
+    struct sockaddr_in *addr4 = (struct sockaddr_in *)storage;
+    addr4->sin_family = AF_INET;
+    addr4->sin_port = port;
+    addr4->sin_addr.s_addr = INADDR_ANY;
+    return 0;
+  }
+
+  if (strcmp(addr_family, "v6") == 0) {
+    struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *)storage;
+    addr6->sin6_family = AF_INET6;
+    addr6->sin6_port = port;
+    addr6->sin6_addr = in6addr_any;
+    return 0;
+  }
+
+  return -1;
 }
