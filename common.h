@@ -39,17 +39,83 @@ struct action {
   int board[BOARD_SIZE][BOARD_SIZE];
 };
 
+/**
+ * @brief Imprime na tela o tabuleiro do jogo conforme as especificações de
+ * mapeamento presentes na especificação do trabalho.
+ *
+ * @param board Matriz de inteiros que representa o campo minado
+ * @return void
+ */
 void print_board(const int board[BOARD_SIZE][BOARD_SIZE]);
+
+/**
+ * @brief Reseta o tabuleiro do jogo, isto é, marca todas as coordenadas como
+ * 'escondidas'
+ *
+ * @param board Matriz de inteiros que representa o campo minado
+ * @return void
+ */
 void reset_board_state(int board[BOARD_SIZE][BOARD_SIZE]);
+
+/**
+ * @brief Lê o tabuleiro de um arquivo e armazena em uma matriz de inteiros que
+ * será utilizada no jogo
+ *
+ * @param input_file_path Caminho para o arquivo de entrada que contêm o
+ * tabuleiro do jogo
+ * @param board Matriz de inteiros na qual o tabuleiro deverá ser armazenado
+ * @return void
+ */
 void parse_input(const char *input_file_path,
                  int board[BOARD_SIZE][BOARD_SIZE]);
+
+/**
+ * @brief Imprime na tela o modo de uso do servidor
+ *
+ * @param fp Ponteiro para o arquivo onde o modo de uso deve ser escrito
+ * @param path Caminho para o arquivo binário que contêm o executável do
+ * servidor
+ * @return void
+ */
 void server_usage(FILE *fp, const char *path);
+
+/**
+ * @brief Imprime na tela o modo de uso do cliente
+ *
+ * @param fp Ponteiro para o arquivo onde o modo de uso deve ser escrito
+ * @param path Caminho para o arquivo binário que contêm o executável do cliente
+ * @return void
+ */
 void client_usage(FILE *fp, const char *path);
+
+/**
+ * @brief Imprime um erro e sai da execução com status de falha
+ *
+ * @param msg Mensagem de erro a ser impressa
+ * @return void
+ */
 void err_n_die(const char *msg);
+
+/**
+ * @brief Checa se as coordenadas estão dentro dos limites permitidos
+ *
+ * @param coordinates Par de inteiros que representam as coordenadas
+ * @return bool: true se as coordenadas forem válidas, falso caso contrário
+ */
 bool is_out_of_bounds(const int coordinates[2]);
 
-// Funções baseada na implementação disponibilizada na playlist do professor
-// Ítalo Cunha https://www.youtube.com/watch?v=tJ3qNtv0HVs&t=2s
+// As funções abaixo foram baseadas nas implementações disponibilizadas na
+// playlist do professor Ítalo Cunha
+// https://www.youtube.com/watch?v=tJ3qNtv0HVs&t=2s
+
+/**
+ * @brief Realiza o 'parse' do endereço do servidor passado como parâmetro para o cliente
+ *
+ * @param addrstr String que representa o endereço do servidor
+ * @param portstr String que representa a porta onde o servidor está rodando
+ * @param storage Struct 
+ * @return bool: true se as coordenadas forem válidas, falso caso contrário
+ */
 int addrparse(const char *addrstr, const char *portstr,
               struct sockaddr_storage *storage);
 int server_sockaddr_init(const char *addr_family, const char *porstr,

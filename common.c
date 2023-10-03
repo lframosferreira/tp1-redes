@@ -1,7 +1,5 @@
 #include "common.h"
 
-// game related stuff
-
 void print_board(const int board[BOARD_SIZE][BOARD_SIZE]) {
   char repr;
   for (int i = 0; i < BOARD_SIZE; i++) {
@@ -58,7 +56,6 @@ void parse_input(const char *input_file_path,
     board[i][3] = atoi(strtok(NULL, ","));
     i++;
   }
-
   fclose(fp);
 }
 
