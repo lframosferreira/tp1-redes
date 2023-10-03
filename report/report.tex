@@ -12,15 +12,20 @@
 \usepackage{caption}
 \usepackage{float}
 
-\title{Redes de Computadores \\ Trabalho Prático 1}
-\author{Luís Felipe Ramos Ferreira \\ 2019022553 \\
-      \href{mailto:lframos_ferreira@outlook.com}{\texttt{lframos\_ferreira@outlook.com}}}
+\title{Redes de Computadores \\ \large Trabalho Prático 1}
+\author{Luís Felipe Ramos Ferreira}
+\date{\href{mailto:lframos\_ferreira@outlook.com}{\texttt{lframos\_ferreira@outlook.com}}
+}
+
 \begin{document}
+
 \maketitle
 
 \section{Introdução}
 
-O Trabalho Prático 1 da disciplina de Redes de Computadores
+O Trabalho Prático 1 da disciplina de Redes de Computadores teve como proposta
+o desenvolvimento de um \textit{Campo Minado} que permite a interação entre um
+cliente e um servidor usando sockets em linguagem C.
 
 \begin{figure}[H]
       \centering
@@ -28,11 +33,32 @@ O Trabalho Prático 1 da disciplina de Redes de Computadores
       \caption{Teste de imagem}
 \end{figure}
 
-A primeira coisa
+\section{Implementação}
+
+Conforme especificado no enunciado, o projeto foi todo desenvolvido na
+linguagem de programação C em um ambiente Linux, e o manuseio de Sockets por
+meio da interface POSIX
+disponibilizada para a linguagem. Para manter uma maior organização do código,
+além dos arquivos \textit{server.c} e \textit{client.c}, os quais possuem
+respectivamente, as implementações do servidor e do cliente,
+foi criado um arquivo auxiliar \textit{common.c} e seu arquivo de cabeçalho
+\textit{common.h}, os quais possuem as especificações e implementações de
+funções auxiliares que podem ser utilizadas por ambas as partes do projeto.
+
+\section{Desafios, dificuldades e imprevistos}
+
+kaido
 
 \section{Conclusão}
 
-Em suma
+Em suma o projeto permitiu grandes aprendizados tanto na parte teórica como na
+parte prática do desenvolvimento de sistemas de redes. As implementações
+tornaram
+possível compreender melhor como funciona o protocolo de comunicação TCP, como
+deve ser feita e mantida a comunicação entre um servidor e um cliente, etc. Na
+parte prática, foi permitido obter uma maior familiaridade
+com a interface POSIX de programação em Sockets, assim como em programação na
+linguagem C de maneira geral.
 
 \section{Referências}
 
@@ -41,7 +67,8 @@ Em suma
             \begin{itemize}
                   \item Tanenbaum, A. S. \& Wetherall, D. (2011), Computer
                         Networks, Prentice Hall, Boston.
-                  \item TCP/IP Sockets in C\@: Practical Guide for Programmers, Second Edition
+                  \item TCP/IP Sockets in C\@: Practical Guide for Programmers,
+                        Second Edition
             \end{itemize}
 
       \item Web:
