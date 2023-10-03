@@ -57,7 +57,6 @@ int main(int argc, char **argv) {
       curr_action.type = START;
     } else if (strcmp(command, "reset") == 0) {
       curr_action.type = RESET;
-      fprintf(stdout, "starting new game\n");
     } else if (strcmp(command, "exit") == 0) {
       curr_action.type = EXIT;
     } else if (strcmp(command, "reveal") == 0) {

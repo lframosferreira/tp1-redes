@@ -32,6 +32,7 @@ int main(int argc, char **argv) {
 
   int game_board[BOARD_SIZE][BOARD_SIZE];
   parse_input(input_file_path, game_board);
+  print_board(game_board);
 
   int sockfd = socket(servaddr.ss_family, SOCK_STREAM, 0);
   if (sockfd == -1) {
@@ -119,6 +120,7 @@ int main(int argc, char **argv) {
       case RESET:
         curr_action.type = STATE;
         reset_board_state(curr_action.board);
+        fprintf(stdout, "starting new game\n");
         break;
       case EXIT:
         fprintf(stdout, "client disconnected\n");
