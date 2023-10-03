@@ -39,93 +39,103 @@ int main(int argc, char **argv) {
   }
 
   if (bind(sockfd, (struct sockaddr *)(&servaddr), sizeof(servaddr)) == -1) {
+    close(sockfd);
     err_n_die("Error in bind().\n");
   }
 
-  if (listen(sockfd, 10) == -1) {
+  if (listen(sockfd, MAX_CLIENTS) == -1) {
+    close(sockfd);
     err_n_die("Error on listen().\n");
   }
 
-  struct sockaddr_storage client_addr;
-  socklen_t client_addr_len = sizeof(client_addr);
-  int csockfd =
-      accept(sockfd, (struct sockaddr *)(&client_addr), &client_addr_len);
-  if (csockfd == -1) {
-    err_n_die("Error on using accept().\n");
-  }
-
-  fprintf(stdout, "cilent connected\n");
-
-  struct action curr_action;
-  memset(&curr_action, 0, sizeof(curr_action));
-  int revealed_cell_count = 0;
-  const int NOT_BOMB_CELL_COUNT = 13;
-
   for (;;) {
-    ssize_t bytes_received =
-        recv(csockfd, &curr_action, sizeof(curr_action), 0);
-    if (bytes_received == -1) {
-      err_n_die("Error when using recv().\n");
-    } else if (bytes_received == 0) {
-      break;
+
+    struct sockaddr_storage client_addr;
+    socklen_t client_addr_len = sizeof(client_addr);
+    int csockfd =
+        accept(sockfd, (struct sockaddr *)(&client_addr), &client_addr_len);
+    if (csockfd == -1) {
+      close(sockfd);
+      err_n_die("Error on using accept().\n");
     }
 
-    int c0 = curr_action.coordinates[0];
-    int c1 = curr_action.coordinates[1];
+    fprintf(stdout, "cilent connected\n");
 
-    switch (curr_action.type) {
-    case START:
-      reset_board_state(curr_action.board);
-      break;
-    case REVEAL:
-      if (game_board[c0][c1] == BOMB) {
-        curr_action.type = GAME_OVER;
-        for (int i = 0; i < BOARD_SIZE; i++) {
-          for (int j = 0; j < BOARD_SIZE; j++) {
-            curr_action.board[i][j] = game_board[i][j];
-          }
-        }
-      } else {
-        revealed_cell_count++;
-        if (revealed_cell_count == NOT_BOMB_CELL_COUNT) {
-          curr_action.type = WIN;
+    struct action curr_action;
+    memset(&curr_action, 0, sizeof(curr_action));
+    int revealed_cell_count = 0;
+    const int NOT_BOMB_CELL_COUNT = 13;
+
+    for (;;) {
+      ssize_t bytes_received =
+          recv(csockfd, &curr_action, sizeof(curr_action), 0);
+      if (bytes_received == -1) {
+        close(sockfd);
+        close(csockfd);
+        err_n_die("Error when using recv().\n");
+      } else if (bytes_received == 0) { // client disconnected
+        close(csockfd);
+        break;
+      }
+
+      int c0 = curr_action.coordinates[0];
+      int c1 = curr_action.coordinates[1];
+
+      switch (curr_action.type) {
+      case START:
+        reset_board_state(curr_action.board);
+        break;
+      case REVEAL:
+        if (game_board[c0][c1] == BOMB) {
+          curr_action.type = GAME_OVER;
           for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
               curr_action.board[i][j] = game_board[i][j];
             }
           }
         } else {
-          curr_action.type = STATE;
-          curr_action.board[c0][c1] = game_board[c0][c1];
+          revealed_cell_count++;
+          if (revealed_cell_count == NOT_BOMB_CELL_COUNT) {
+            curr_action.type = WIN;
+            for (int i = 0; i < BOARD_SIZE; i++) {
+              for (int j = 0; j < BOARD_SIZE; j++) {
+                curr_action.board[i][j] = game_board[i][j];
+              }
+            }
+          } else {
+            curr_action.type = STATE;
+            curr_action.board[c0][c1] = game_board[c0][c1];
+          }
         }
+        break;
+      case FLAG:
+        curr_action.type = STATE;
+        curr_action.board[c0][c1] = FLAGGED;
+        break;
+      case REMOVE_FLAG:
+        curr_action.type = STATE;
+        curr_action.board[c0][c1] = HIDDEN;
+        break;
+      case RESET:
+        curr_action.type = STATE;
+        reset_board_state(curr_action.board);
+        break;
+      case EXIT:
+        fprintf(stdout, "client disconnected\n");
+        reset_board_state(curr_action.board);
+        break;
+      default:
+        break;
       }
-      break;
-    case FLAG:
-      curr_action.type = STATE;
-      curr_action.board[c0][c1] = FLAGGED;
-      break;
-    case REMOVE_FLAG:
-      curr_action.type = STATE;
-      curr_action.board[c0][c1] = HIDDEN;
-      break;
-    case RESET:
-      curr_action.type = STATE;
-      reset_board_state(curr_action.board);
-      break;
-    case EXIT:
-      fprintf(stdout, "client disconnected\n");
-      break;
-    default:
-      break;
-    }
 
-    if (send(csockfd, &curr_action, sizeof(curr_action), 0) == -1) {
-      err_n_die("Error using send().\n");
+      if (send(csockfd, &curr_action, sizeof(curr_action), 0) == -1) {
+        close(sockfd);
+        close(csockfd);
+        err_n_die("Error using send().\n");
+      }
     }
   }
 
-  close(csockfd);
   close(sockfd);
-
   return 0;
 }

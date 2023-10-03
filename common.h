@@ -30,8 +30,8 @@
 #define FLAGGED -3
 
 #define BOARD_SIZE 4
-
 #define MAX_BUFFER_SIZE 1024
+#define MAX_CLIENTS 10
 
 struct action {
   int type;
@@ -51,7 +51,7 @@ bool is_out_of_bounds(const int coordinates[2]);
 // Funções baseada na implementação disponibilizada na playlist do professor
 // Ítalo Cunha https://www.youtube.com/watch?v=tJ3qNtv0HVs&t=2s
 int addrparse(const char *addrstr, const char *portstr,
-               struct sockaddr_storage *storage);
+              struct sockaddr_storage *storage);
 int server_sockaddr_init(const char *addr_family, const char *porstr,
                          struct sockaddr_storage *storage);
 #endif
