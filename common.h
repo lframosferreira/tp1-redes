@@ -109,15 +109,27 @@ bool is_out_of_bounds(const int coordinates[2]);
 // https://www.youtube.com/watch?v=tJ3qNtv0HVs&t=2s
 
 /**
- * @brief Realiza o 'parse' do endereço do servidor passado como parâmetro para o cliente
+ * @brief Realiza o 'parse' do endereço do servidor passado como parâmetro para
+ * o cliente
  *
  * @param addrstr String que representa o endereço do servidor
  * @param portstr String que representa a porta onde o servidor está rodando
- * @param storage Struct 
- * @return bool: true se as coordenadas forem válidas, falso caso contrário
+ * @param storage Struct em que o endereço será armazenado
+ * @return int: -1 em caso de erro, 0 caso contrário
  */
 int addrparse(const char *addrstr, const char *portstr,
               struct sockaddr_storage *storage);
+
+/**
+ * @brief Inicializa o servidor
+ *
+ * @param addr_family String que representa a familia do endereço, isto é, 'v4'
+ * ou 'v6'
+ * @param portstr String que representa a porta onde o servidor deve rodar
+ * @param storage Struct em que o endereço será armazenado
+ * @return int: -1 em caso de erro, 0 caso contrário
+ */
 int server_sockaddr_init(const char *addr_family, const char *porstr,
                          struct sockaddr_storage *storage);
+
 #endif
