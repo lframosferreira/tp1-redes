@@ -95,7 +95,12 @@ Por fim, um dos outros grandes desafios encontrados durante o desenvolvimento
 do trabalho foi o do envio da estrutura de \textit{action} nas mensagens
 trocadas entre
 o cliente e o servidor. Em um primeiro momento, a estrutura foi passado
-diretamente nas mensagens, utilizando-se a função \textit{send()}. blablu bleh
+diretamente nas mensagens, utilizando-se a função \textit{send()} com o o \textit{buffer} de mensagem
+sendo a própria estrutura de \textit{action}. Após discussões no fórum da disciplina, foi levantada a questão de se utilizar
+serialização para envio da estrutura. Fiz uma implementação inicial dessa serialização com base em recomendações de conteúdos
+disponibilizados na \textit{internet}. Apesar de ter funcionado, pelas respostas obtidas pela monitora no fórum, ficou-se entendido que
+também seria correto não utilizar serialização, o que tornaria o código mais simples e compatível com o dos outros colegas que não utilizaram
+da mesma forma de implementação da serialização.
 
 \section{Conclusão}
 
