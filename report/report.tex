@@ -51,7 +51,7 @@ A primeira dificuldade imposta pelo trabalho prático foi a familiarização com
 interface POSIX de programação em Sockets. Embora a linguagem C seja
 considerada de alto nível, em muitos momentos suas funcionalidades podem ser
 confusas, o que tornou difícil um primeiro contato com a criação dos sockets e
-da conexao entre eles. No entanto, esse empecilho não durou muito, uma vez que
+da conexão entre eles. No entanto, esse empecilho não durou muito, uma vez que
 existe uma infinidade de conteúdos sobre o assunto disponibilizados na
 \textit{internet}, além, é
 claro, das páginas de manual disponibilizadas nas distribuições \textit{Linux}.
@@ -59,13 +59,43 @@ Outra fonte extremamente útil para lidar com dificuldades do tipo foi a
 \textit{playlist} do professr Ítalo Cunha, disponibilizada na especificação do
 trabalho.
 
-Outro desafio encontrado durante o desenvolvimento foi 
+Outro desafio encontrado durante o desenvolvimento foi a de manter a
+flexibilidade da escolha entre \textit{IPv4} e \textit{IPv6} na comunicação
+entre o cliente e o servidor. Em particular, compreender como identificar, por
+parte do cliente, qual tipo de endereço estava sendo utilizado, tomou bastante
+tempo. No fim,
+graças mais uma vez à \textit{playlist} do professor Ítalo o problema foi
+resolvido. A função \textit{addrparse()} desenvolvida pelo professor, que
+utiliza a função \textit{inet\_pton()} para conversãr da \textit{string} que
+representa o endereço para o formato binário correto
+facilitou a resolução desse problema.
 
-- parse de ipv4 e ipv6
+A lógica de conexão e saída de diferentes clientes com o servidor também foi um
+desafio no desenvolvimento do projeto. A princípio,
+na primeira implementação, assumi que após um cliente enviar o comando
+\textit{exit} o servidor deveria ser desligado também. No entanto, essa lógica
+esta
+incorreta, uma vez que o comportamento esperado é de que, após um cliente se
+desconectar, o servidor se mantenha rodando para que novos clientes possam se
+conectar e jogar uma partida de
+campo minado. Para resolver esse problema, dois laços foram utilizados por
+parte do servidor. No primeiro laço, utiliza-se a função \textit{accept()} para
+aceitar a conexão com
+algum cliente que esteja tentando se conectar com o servidor. Assim que uma
+conexão for feita, um novo laço é feito, pelo qual a comunicação entre cliente
+e servidor é feita. Agora, quando
+o cliente atual envia uma mensagem de \textit{exit}, a conexão entre o servidor
+e este cliente é fechada, mas o servidor continua funcionando, e executa a ação
+bloqueante do \textit{accept()} enquanto aguarda por um novo cliente para
+se conectar. Desse modo, o servidor só irá parar de funcionar quando acontecer
+um erro durante a execução ou quando o usuário com controle de acesso sobre o
+servidor forçadamente parar sua execução.
 
-- como lidar com clientes se desconectando e conectando novamente
-
-
+Por fim, um dos outros grandes desafios encontrados durante o desenvolvimento
+do trabalho foi o do envio da estrutura de \textit{action} nas mensagens
+trocadas entre
+o cliente e o servidor. Em um primeiro momento, a estrutura foi passado
+diretamente nas mensagens, utilizando-se a função \textit{send()}. blablu bleh
 
 \section{Conclusão}
 

@@ -56,7 +56,6 @@ int main(int argc, char **argv) {
     int csockfd =
         accept(sockfd, (struct sockaddr *)(&client_addr), &client_addr_len);
     if (csockfd == -1) {
-      close(sockfd);
       err_n_die("Error on using accept().\n");
     }
 
@@ -64,6 +63,13 @@ int main(int argc, char **argv) {
 
     struct action curr_action;
     memset(&curr_action, 0, sizeof(curr_action));
+
+    /* Pela especificação, sempre será utilizado um tabuleiro com 16 células e
+     * exatamente 3 células são bombas. Logo, para que um jogo termine, o número
+     * de células reveladas que não são bombas deve ser 13. A checagem de
+     * vitória do jogo é feita dessa maneira para evitar overheads que, embora
+     * não sejam de grande impacto para instâncias tão pequenas, podem ser um
+     * problema com o aumento do tabuleiro do jogo */
     int revealed_cell_count = 0;
     const int NOT_BOMB_CELL_COUNT = 13;
 
@@ -118,6 +124,7 @@ int main(int argc, char **argv) {
         curr_action.board[c0][c1] = HIDDEN;
         break;
       case RESET:
+        revealed_cell_count = 0;
         curr_action.type = STATE;
         reset_board_state(curr_action.board);
         fprintf(stdout, "starting new game\n");
