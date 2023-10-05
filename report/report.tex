@@ -27,20 +27,17 @@ O Trabalho Prático 1 da disciplina de Redes de Computadores teve como proposta
 o desenvolvimento de um \textit{Campo Minado} que permite a interação entre um
 cliente e um servidor usando sockets em linguagem C.
 
-\begin{figure}[H]
-      \centering
-      \includegraphics[width=0.6\textwidth]{images/gengar.png}
-      \caption{Teste de imagem}
-\end{figure}
+O repositório onde está armazenado o código utilizado durante o desenvolvimento desse projeto
+pode ser encontrado \href{https://github.com/lframosferreira/tp1-redes}{neste endereço}.
 
 \section{Implementação}
 
 Conforme especificado no enunciado, o projeto foi todo desenvolvido na
-linguagem de programação C em um ambiente Linux, e o manuseio de Sockets por
+linguagem de programação C em um ambiente \textit{Linux}, e o manuseio de sockets por
 meio da interface POSIX
 disponibilizada para a linguagem. Para manter uma maior organização do código,
 além dos arquivos \textit{server.c} e \textit{client.c}, os quais possuem
-respectivamente, as implementações do servidor e do cliente,
+respectivamente as implementações do servidor e do cliente,
 foi criado um arquivo auxiliar \textit{common.c} e seu arquivo de cabeçalho
 \textit{common.h}, os quais possuem as especificações e implementações de
 funções auxiliares que podem ser utilizadas por ambas as partes do projeto.
@@ -48,7 +45,7 @@ funções auxiliares que podem ser utilizadas por ambas as partes do projeto.
 \section{Desafios, dificuldades e imprevistos}
 
 A primeira dificuldade imposta pelo trabalho prático foi a familiarização com a
-interface POSIX de programação em Sockets. Embora a linguagem C seja
+interface POSIX de programação em sockets. Embora a linguagem C seja
 considerada de alto nível, em muitos momentos suas funcionalidades podem ser
 confusas, o que tornou difícil um primeiro contato com a criação dos sockets e
 da conexão entre eles. No entanto, esse empecilho não durou muito, uma vez que
@@ -66,7 +63,7 @@ parte do cliente, qual tipo de endereço estava sendo utilizado, tomou bastante
 tempo. No fim,
 graças mais uma vez à \textit{playlist} do professor Ítalo o problema foi
 resolvido. A função \textit{addrparse()} desenvolvida pelo professor, que
-utiliza a função \textit{inet\_pton()} para conversãr da \textit{string} que
+utiliza a função \textit{inet\_pton()} para converter da \textit{string} que
 representa o endereço para o formato binário correto
 facilitou a resolução desse problema.
 
