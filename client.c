@@ -74,12 +74,12 @@ int main(int argc, char **argv) {
       }
     } else if (strcmp(command, "flag") == 0) {
       curr_action.type = FLAG;
-      if (curr_action.board[c0][c1] != HIDDEN) {
-        fprintf(stdout, "error: cannot insert flag in revealed cell\n");
-        continue;
-      }
       if (curr_action.board[c0][c1] == FLAGGED) {
         fprintf(stdout, "error: cell already has flag\n");
+        continue;
+      }
+      if (curr_action.board[c0][c1] != HIDDEN) {
+        fprintf(stdout, "error: cannot insert flag in revealed cell\n");
         continue;
       }
     } else if (strcmp(command, "remove_flag") == 0) {
