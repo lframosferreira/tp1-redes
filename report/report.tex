@@ -27,13 +27,16 @@ O Trabalho Prático 1 da disciplina de Redes de Computadores teve como proposta
 o desenvolvimento de um \textit{Campo Minado} que permite a interação entre um
 cliente e um servidor usando sockets em linguagem C.
 
-O repositório onde está armazenado o código utilizado durante o desenvolvimento desse projeto
-pode ser encontrado \href{https://github.com/lframosferreira/tp1-redes}{neste endereço}.
+O repositório onde está armazenado o código utilizado durante o desenvolvimento
+desse projeto
+pode ser encontrado \href{https://github.com/lframosferreira/tp1-redes}{neste
+      endereço}.
 
 \section{Implementação}
 
 Conforme especificado no enunciado, o projeto foi todo desenvolvido na
-linguagem de programação C em um ambiente \textit{Linux}, e o manuseio de sockets por
+linguagem de programação C em um ambiente \textit{Linux}, e o manuseio de
+sockets por
 meio da interface POSIX
 disponibilizada para a linguagem. Para manter uma maior organização do código,
 além dos arquivos \textit{server.c} e \textit{client.c}, os quais possuem
@@ -92,11 +95,16 @@ Por fim, um dos outros grandes desafios encontrados durante o desenvolvimento
 do trabalho foi o do envio da estrutura de \textit{action} nas mensagens
 trocadas entre
 o cliente e o servidor. Em um primeiro momento, a estrutura foi passado
-diretamente nas mensagens, utilizando-se a função \textit{send()} com o o \textit{buffer} de mensagem
-sendo a própria estrutura de \textit{action}. Após discussões no fórum da disciplina, foi levantada a questão de se utilizar
-serialização para envio da estrutura. Fiz uma implementação inicial dessa serialização com base em recomendações de conteúdos
-disponibilizados na \textit{internet}. Apesar de ter funcionado, pelas respostas obtidas pela monitora no fórum, ficou-se entendido que
-também seria correto não utilizar serialização, o que tornaria o código mais simples e compatível com o dos outros colegas que não utilizaram
+diretamente nas mensagens, utilizando-se a função \textit{send()} com o o
+\textit{buffer} de mensagem
+sendo a própria estrutura de \textit{action}. Após discussões no fórum da
+disciplina, foi levantada a questão de se utilizar
+serialização para envio da estrutura. Fiz uma implementação inicial dessa
+serialização com base em recomendações de conteúdos
+disponibilizados na \textit{internet}. Apesar de ter funcionado, pelas
+respostas obtidas pela monitora no fórum, ficou-se entendido que
+também seria correto não utilizar serialização, o que tornaria o código mais
+simples e compatível com o dos outros colegas que não utilizaram
 da mesma forma de implementação da serialização.
 
 \section{Conclusão}
