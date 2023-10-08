@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
   }
 
   if (connect(sockfd, (struct sockaddr *)(&servaddr), sizeof(servaddr)) == -1) {
+    close(sockfd);
     err_n_die("Error while connecting to server.\n");
   }
 
@@ -36,6 +37,7 @@ int main(int argc, char **argv) {
 
     memset(input_buffer, 0, sizeof(input_buffer));
     if (fgets(input_buffer, sizeof(input_buffer), stdin) == NULL) {
+      close(sockfd);
       err_n_die("Error while reading client input using fgets().\n");
     }
 
@@ -88,6 +90,7 @@ int main(int argc, char **argv) {
     }
 
     if (send(sockfd, &curr_action, sizeof(curr_action), 0) == -1) {
+      close(sockfd);
       err_n_die("Error on using send().\n");
     }
 
